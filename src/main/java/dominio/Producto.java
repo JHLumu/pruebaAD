@@ -2,7 +2,6 @@ package dominio;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,18 +13,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import repositorios.Identificable;
+
 /**
  * Representa un producto publicado en la plataforma.
  * Contiene información relevante como título, descripción, precio, estado, fecha de publicación, categoría, visualizaciones,
  * disponibilidad de envío, lugar de recogida y vendedor.
  */
 @Entity
-public class Producto {
+public class Producto implements Identificable {
 
 	/** Identificador único del producto */
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private int id;
+	private String id;
 	/** Título del producto */
 	private String titulo;
 	/** Descripción detallada del producto */
@@ -56,5 +57,16 @@ public class Producto {
 	 * Constructor sin argumentos, utilizado por JPA.
 	 */
 	public Producto() {}
+
+	@Override
+	public String getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
+		
+	}
 	
 }

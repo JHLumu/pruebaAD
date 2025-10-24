@@ -1,13 +1,15 @@
 package dominio;
 import javax.persistence.Lob;
 
+import repositorios.Identificable;
+
 /**
  * Representa una categoría de productos en la plataforma.
  * Permite organizar los productos en grupos temáticos, incluyendo subcategorías.
  */
-public class Categoria {
+public class Categoria{
 	/** Identificador único de la categoría */
-	private int id;
+	private String id;
 	/** Nombre de la categoría */
 	private String nombre;
 	/** Descripción de la categoría */
@@ -18,9 +20,13 @@ public class Categoria {
 	/** Subcategoría asociada, si existe */
 	private Categoria subcategoria;
 	
-	/**
-	 * Constructor sin argumentos, utilizado por JPA.
-	 */
-	public Categoria() {}
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+		
+	}
 	
 }

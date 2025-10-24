@@ -130,7 +130,6 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
             final String queryString = " SELECT t.id from " + getClase().getSimpleName() + " t ";
 
             Query query = em.createQuery(queryString);
-
             query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 
             return query.getResultList();
