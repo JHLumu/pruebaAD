@@ -40,7 +40,9 @@ public class Producto implements Identificable {
 	/** Fecha en la que se publicó el producto */
 	private LocalDateTime fechaPublicacion;
 	/** Categoría a la que pertenece el producto */
-	private int categoria;
+	@ManyToOne
+	@JoinColumn(name="categoria_id")
+	private Categoria categoria;
 	/** Número de visualizaciones del producto */
 	private int visualizaciones;
 	/** Indica si el envío está disponible para el producto */
