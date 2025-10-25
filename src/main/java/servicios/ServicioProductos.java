@@ -15,7 +15,7 @@ import utils.ProductoResumen;
 public class ServicioProductos implements IServicioProductos{
 
 	public RepositorioProductosJPA repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
-	public RepositorioCategoriasJPA repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
+	//public RepositorioCategoriasJPA repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
 	
 	@Override
 	public String registrarProducto(String titulo, String descripcion, double precio, EstadoProducto estado,
@@ -26,7 +26,7 @@ public class ServicioProductos implements IServicioProductos{
 			IDVendedor == null || IDVendedor.isEmpty()) return null;
 		
 			
-			if (repositorioCategorias.getById(idCategoria))
+			//if (repositorioCategorias.getById(idCategoria))
 		
 		return null;
 	}

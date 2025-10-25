@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.*;
+
 
 import repositorios.Identificable;
 
@@ -17,18 +19,23 @@ import repositorios.Identificable;
  * Representa una categoría de productos en la plataforma.
  * Permite organizar los productos en grupos temáticos, incluyendo subcategorías.
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 @Entity
 public class Categoria implements Identificable{
 	/** Identificador único de la categoría */
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@XmlAttribute
 	private String id;
 	/** Nombre de la categoría */
+	@XmlElement
 	private String nombre;
 	/** Descripción de la categoría */
 	@Lob
+	@XmlAttribute
 	private String descripcion;
 	/** Ruta asociada a la categoría (puede ser utilizada para navegación o almacenamiento) */
+	@XmlAttribute
 	private String ruta;
 	/** Subcategoría asociada, si existe */
 	
@@ -37,6 +44,7 @@ public class Categoria implements Identificable{
 	private Categoria categoriaPadre;
 	
 	@OneToMany(mappedBy="categoriaPadre", cascade=CascadeType.ALL)
+	@XmlElement(name = "categoria")
 	private List<Categoria> subcategorias;
 	
 	@OneToMany(mappedBy="categoria")
@@ -49,6 +57,54 @@ public class Categoria implements Identificable{
 	public void setId(String id) {
 		this.id = id;
 		
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
+	public Categoria getCategoriaPadre() {
+		return categoriaPadre;
+	}
+
+	public void setCategoriaPadre(Categoria categoriaPadre) {
+		this.categoriaPadre = categoriaPadre;
+	}
+
+	public List<Categoria> getSubcategorias() {
+		return subcategorias;
+	}
+
+	public void setSubcategorias(List<Categoria> subcategorias) {
+		this.subcategorias = subcategorias;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 	
 }

@@ -7,6 +7,7 @@
         <!-- añadir las entidades anotadas con el elemento class-->
         <class>dominio.Usuario</class>
         <class>dominio.Producto</class>
+         <class>dominio.Categoria</class>
         
         <properties>
             <property name="javax.persistence.jdbc.driver"
