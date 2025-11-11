@@ -15,4 +15,19 @@ public class LugarDeRecogida {
 	private int longitud;
 	/** Latitud geográfica */
 	private int latitud;
+	
+	
+	/**
+	 * Constructor por defecto, para JPA.
+	 */
+	public LugarDeRecogida() {};
+	
+	
+	
+	
+	public LugarDeRecogida(String descripcion, int longitud, int latitud) {
+		this.descripcion = descripcion;
+		this.longitud = longitud;
+		this.latitud = latitud;
+	}
 }

@@ -2,6 +2,7 @@ package servicios;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import dominio.Categoria;
 import dominio.EstadoProducto;
@@ -10,15 +11,15 @@ import utils.ProductoResumen;
 
 public interface IServicioProductos {
 
-	public String registrarProducto(String titulo, String descripcion, double precio, EstadoProducto estado, String idCategoria, String disponibilidadEnvio, String IDVendedor);
+	public Optional<String> registrarProducto(String titulo, String descripcion, double precio, EstadoProducto estado, String idCategoria, String disponibilidadEnvio, String IDVendedor);
 	
-	public String asignarLugarRecogida(String idProducto, int longitud, int latitud, String descripcion);
+	public boolean asignarLugarRecogida(String idProducto, String descripcion, int longitud, int latitud);
 	
-	public boolean modificarProducto(Producto producto, double precio, String descripcion);
+	public boolean modificarProducto(String identificador, double precio, String descripcion);
 	
-	public boolean addVisualizacion(String idProducto);
+	public boolean addVisualizacion(String identificador);
 	
 	public List<ProductoResumen> getHistorialVentas(LocalDate fecha);
 	
-	public List<Producto> getProductoByFiltros(Categoria categoria, String textoContenido, EstadoProducto estado, double precioMaximo);
+	public List<Producto> getProductoByFiltros(String idCategoria, String textoContenido, EstadoProducto estado, double precioMaximo);
 }

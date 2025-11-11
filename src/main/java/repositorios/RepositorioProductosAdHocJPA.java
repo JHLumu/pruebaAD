@@ -43,15 +43,18 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 	}
 	
 	@Override
-	public List<Producto> getByFiltros(Categoria categoria, String textoContenido, EstadoProducto estado,
-			double precioMaximo) throws RepositorioException {
+	public List<Producto> getByFiltros(String idCategoria, String textoContenido, EstadoProducto estado,
+			double precioMaximo) throws RepositorioException, EntidadNoEncontrada {
 
 		try {
 		
 			EntityManager em = EntityManagerHelper.getEntityManager();
 			
 			String queryCategoria = "";
-			if (categoria != null) queryCategoria = "AND (p.categoria == idCategoria OR "
+			
+			if (this.getById(idCategoria) == null) throw new EntidadNoEncontrada("La categoria pasada como filtro");
+				
+			queryCategoria = "AND (p.categoria == idCategoria OR "
 					+ "p.categoria IN (SELECT c.subcategorias from Categoria c"
 					+ "WHERE c.id == idCategoria))";
 			
@@ -69,7 +72,7 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 					+ queryEstado;
 			
 			TypedQuery<Producto> query = em.createQuery(queryString, Producto.class);
-			if (!queryCategoria.isEmpty()) query.setParameter("idCategoria", categoria.getId());
+			if (!queryCategoria.isEmpty()) query.setParameter("idCategoria", idCategoria);
 			if (!queryTexto.isEmpty()) query.setParameter("texto", textoContenido);
 			if (!queryEstado.isEmpty()) query.setParameter("estado", estado);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);

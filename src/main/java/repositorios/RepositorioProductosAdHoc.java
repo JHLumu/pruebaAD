@@ -12,6 +12,6 @@ public interface RepositorioProductosAdHoc {
 
 	public List<ProductoResumen> getHistorialVentas(LocalDate fecha) throws RepositorioException;
 	
-	public List<Producto> getByFiltros(Categoria categoria, String textoContenido, EstadoProducto estado, double precioMaximo) throws RepositorioException;
+	public List<Producto> getByFiltros(String idCategoria, String textoContenido, EstadoProducto estado, double precioMaximo) throws RepositorioException, EntidadNoEncontrada;
 	
 }

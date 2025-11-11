@@ -59,7 +59,19 @@ public class Producto implements Identificable {
 	 * Constructor sin argumentos, utilizado por JPA.
 	 */
 	public Producto() {}
-
+	
+	
+	public Producto (String titulo, String descripcion, double precio, EstadoProducto estado, Categoria categoria, Usuario vendedor) {
+		this.titulo = titulo;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.estado = estado;
+		this.categoria = categoria;
+		this.vendedor = vendedor;
+		this.fechaPublicacion = LocalDateTime.now();
+		this.visualizaciones = 0;
+	}
+	
 	@Override
 	public String getId() {
 		return this.id;
@@ -69,6 +81,104 @@ public class Producto implements Identificable {
 	public void setId(String id) {
 		this.id = id;
 		
+	}
+	
+	public void setLugarDeRecogida(LugarDeRecogida recogida) {
+		this.recogida = recogida;
+	}
+	
+	public LugarDeRecogida getLugarDeRecogida() {
+		return this.recogida;
+	}
+
+
+	public String getTitulo() {
+		return this.titulo;
+	}
+
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+	public double getPrecio() {
+		return this.precio;
+	}
+
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+
+	public EstadoProducto getEstado() {
+		return this.estado;
+	}
+
+
+	public void setEstado(EstadoProducto estado) {
+		this.estado = estado;
+	}
+
+
+	public LocalDateTime getFechaPublicacion() {
+		return this.fechaPublicacion;
+	}
+
+
+	public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
+		this.fechaPublicacion = fechaPublicacion;
+	}
+
+
+	public Categoria getCategoria() {
+		return this.categoria;
+	}
+
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+
+	public int getVisualizaciones() {
+		return this.visualizaciones;
+	}
+
+
+	public void setVisualizaciones(int visualizaciones) {
+		this.visualizaciones = visualizaciones;
+	}
+
+
+	public boolean isEnvioDisponible() {
+		return this.envioDisponible;
+	}
+
+
+	public void setEnvioDisponible(boolean envioDisponible) {
+		this.envioDisponible = envioDisponible;
+	}
+
+
+	public Usuario getVendedor() {
+		return this.vendedor;
+	}
+
+
+	public void setVendedor(Usuario vendedor) {
+		this.vendedor = vendedor;
 	}
 	
 }

@@ -35,9 +35,19 @@ public class ServicioUsuarios implements IServicioUsuarios {
 	
 	
 	@Override
-	public boolean modificarUsuario(Usuario usuario, String nombre, String apellido,
+	public boolean modificarUsuario(String idUsuario, String nombre, String apellido,
 			String correo, String clave, LocalDate fecha, String telefono) {
 		
+		Usuario usuario;
+		try {
+			usuario = repositorio.getById(idUsuario);
+		} catch (EntidadNoEncontrada e) {
+			e.printStackTrace();
+			return false;
+		} catch (RepositorioException e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 		if (nombre != null && !nombre.isEmpty()) usuario.setNombre(nombre);
 		if (apellido != null && !apellido.isEmpty()) usuario.setApellidos(apellido);
@@ -58,9 +68,10 @@ public class ServicioUsuarios implements IServicioUsuarios {
 		}
 	}
 	@Override
-	public Usuario recuperarUsuario(String id) {
+	public Usuario recuperarUsuario(String idUsuario) {
 		try {
-			return this.repositorio.getById(id);
+			return this.repositorio.getById(idUsuario);
+			
 		} catch (EntidadNoEncontrada e) {
 			e.printStackTrace();
 			return null;

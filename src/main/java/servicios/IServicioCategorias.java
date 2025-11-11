@@ -6,9 +6,9 @@ import dominio.Categoria;
 
 public interface IServicioCategorias {
 
-	public boolean cargarCategorias(String ruta);
+	public boolean cargarCategorias(String ruta, String idUsuario);
 	
-	public boolean modificarCategoria(String idCategoria, String descripcion);
+	public boolean modificarCategoria(String idCategoria, String descripcion ,String idUsuario);
 	
 	public List<Categoria> recuperarCategoriasRaiz();
 	

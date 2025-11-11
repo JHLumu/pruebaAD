@@ -15,7 +15,7 @@ public class ProgramaUsuarios {
 		//Creación de Usuario
 		Optional<String> id = servicioUsuarios.registrarUsuario("Jesús", "Sánchez", "wjesus.sanchez@um.es", "123", LocalDate.of(2004, 8, 5), "123456789");
 		System.out.println("ID: " + id.orElse("null"));
-		servicioUsuarios.modificarUsuario(servicioUsuarios.recuperarUsuario(id.get()), null, "Sánchez Pardo", null, null, null, null);
+		servicioUsuarios.modificarUsuario(id.get(), null, "Sánchez Pardo", null, null, null, null);
 			
 	}
 

@@ -173,6 +173,12 @@ public class Usuario implements Identificable{
 		this.telefono = telefono;
 	}
 	
+	public boolean esAdministrador() {
+		return this.esAdministrador;
+	}
 	
+	public void setEsAdministrador(boolean admin) {
+		this.esAdministrador = admin;
+	}
 	
 }
