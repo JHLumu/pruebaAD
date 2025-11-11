@@ -3,10 +3,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,11 +41,12 @@ public class Categoria implements Identificable{
 	private String ruta;
 	/** Subcategoría asociada, si existe */
 	
-	@ManyToOne
-	@JoinColumn(name="categoria_padre_id")
-	private Categoria categoriaPadre;
-	
-	@OneToMany(mappedBy="categoriaPadre", cascade=CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "categoria_subcategoria",
+			joinColumns = @JoinColumn(name = "categoria_id"),
+			inverseJoinColumns = @JoinColumn(name = "subcategoria_id")
+	)
 	@XmlElement(name = "categoria")
 	private List<Categoria> subcategorias;
 	
@@ -81,14 +84,6 @@ public class Categoria implements Identificable{
 
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
-	}
-
-	public Categoria getCategoriaPadre() {
-		return categoriaPadre;
-	}
-
-	public void setCategoriaPadre(Categoria categoriaPadre) {
-		this.categoriaPadre = categoriaPadre;
 	}
 
 	public List<Categoria> getSubcategorias() {

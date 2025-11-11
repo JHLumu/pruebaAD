@@ -3,6 +3,7 @@ package servicios;
 import java.util.List;
 
 import dominio.Categoria;
+import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
 import repositorios.RepositorioCategoriasJPA;
 import repositorios.RepositorioException;
@@ -16,10 +17,10 @@ public class ServicioCategorias implements IServicioCategorias{
 	@Override
 	public boolean cargarCategorias(String ruta) {
 		ICargarCategorias cargar = new CargarCategorias();
-		Categoria categoria = cargar.cargarCategorias(ruta);
-		if (categoria == null) return false;
+		Categoria raiz = cargar.cargarCategorias(ruta);
+		if (raiz == null) return false;
 		try {
-			repositorio.add(categoria);
+			repositorio.add(raiz);
 			return true;
 		} catch (RepositorioException e) {
 			System.out.println("Error a la hora de añadir la categoría");
