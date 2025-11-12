@@ -16,10 +16,10 @@ public class ServicioUsuarios implements IServicioUsuarios {
 	@Override
 	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, LocalDate fecha, String telefono) {
 		
-		if ((nombre == null || nombre.isEmpty()) && (apellido == null || apellido.isEmpty())
-			&& (correo == null || correo.isEmpty()) && (clave == null || clave.isEmpty()) &&
-			(fecha == null)) Optional.empty();
-			
+		if ((nombre == null || nombre.isEmpty()) || (apellido == null || apellido.isEmpty())
+			    || (correo == null || correo.isEmpty()) || (clave == null || clave.isEmpty()) ||
+			    (fecha == null)) return Optional.empty();
+		
 		Usuario nuevoUsuario;
 		if (telefono != null && !telefono.isEmpty()) nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false, telefono);
 		else nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false);

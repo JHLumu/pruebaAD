@@ -37,8 +37,11 @@ public class ServicioProductos implements IServicioProductos{
 			Categoria categoria = repositorioCategorias.getById(idCategoria);
 			// Si el vendedor del producto no está registrado en el repositorio u ocurre un error, se lanza una excepción y se lanza null.
 			Usuario vendedor = repositorioUsuarios.getById(IDVendedor);
-			Producto producto = new Producto(titulo, descripcion, precio, estado, categoria, vendedor);
 			
+			// Se parsea la disponibilidad de envío
+			boolean envio = "true".equalsIgnoreCase(disponibilidadEnvio);
+			
+			Producto producto = new Producto(titulo, descripcion, precio, estado, categoria, vendedor, envio);
 			// Se persiste Y se devuelve la id del producto.
 			String id = repositorioProductos.add(producto);
 			return Optional.of(id);
@@ -127,7 +130,7 @@ public class ServicioProductos implements IServicioProductos{
 				return repositorioProductos.getHistorialVentas(fecha);
 			} catch (RepositorioException e) {
 				e.printStackTrace();
-				return null;	
+				return Collections.emptyList();	
 			}
 	}
 
@@ -139,9 +142,9 @@ public class ServicioProductos implements IServicioProductos{
 			return repositorioProductos.getByFiltros(idCategoria, textoContenido, estado, precioMaximo);
 		} catch (RepositorioException e) {
 			e.printStackTrace();
-			return null;
+			return Collections.emptyList();
 		} catch (EntidadNoEncontrada e) {
-			return null;
+			return Collections.emptyList();
 		}
 		
 	}

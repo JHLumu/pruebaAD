@@ -35,7 +35,7 @@ public class Producto implements Identificable {
 	/** Precio del producto */
 	private double precio;
 	/** Estado actual del producto */
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	private EstadoProducto estado;
 	/** Fecha en la que se publicó el producto */
 	private LocalDateTime fechaPublicacion;
@@ -61,13 +61,14 @@ public class Producto implements Identificable {
 	public Producto() {}
 	
 	
-	public Producto (String titulo, String descripcion, double precio, EstadoProducto estado, Categoria categoria, Usuario vendedor) {
+	public Producto (String titulo, String descripcion, double precio, EstadoProducto estado, Categoria categoria, Usuario vendedor, boolean envioDisponible) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.estado = estado;
 		this.categoria = categoria;
 		this.vendedor = vendedor;
+		this.envioDisponible = envioDisponible;
 		this.fechaPublicacion = LocalDateTime.now();
 		this.visualizaciones = 0;
 	}

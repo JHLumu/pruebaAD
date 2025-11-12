@@ -53,6 +53,8 @@ public class Categoria implements Identificable{
 	@OneToMany(mappedBy="categoria")
 	private List<Producto> productos;	
 	
+	public Categoria() {}
+	
 	public String getId() {
 		return this.id;
 	}
