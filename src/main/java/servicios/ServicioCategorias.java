@@ -25,19 +25,31 @@ public class ServicioCategorias implements IServicioCategorias{
 		
 		try {
 			Usuario usuario = repositorioUsuarios.getById(idUsuario);
-			if (!usuario.esAdministrador()) return false;
+			if (!usuario.esAdministrador()) {
+				System.err.println("Error: El usuario " + idUsuario + " no es administrador.");
+				return false;
+			}
 			
 			ICargarCategorias cargar = new CargarCategorias();
 			Categoria raiz = cargar.cargarCategorias(ruta);
 			if (raiz == null) return false;
 			
+			try {
+				repositorioCategorias.getById(raiz.getId());
+				System.out.println("INFO: La categoría principal '" + raiz.getNombre() + "' (ID: " + raiz.getId() + ") ya existe. Omitiendo carga.");
+				return false;
+			} catch (EntidadNoEncontrada e) {
+			}
+			
 			repositorioCategorias.add(raiz);
 			return true;
 			
-		} catch (EntidadNoEncontrada e) {
+		} catch (EntidadNoEncontrada e) { 
+			System.err.println("Error al cargar categorías: " + e.getMessage());
 			e.printStackTrace();
 			return false;
-		} catch (RepositorioException e) {
+		} catch (RepositorioException e) { 
+			System.err.println("Error de repositorio al cargar categorías: " + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -46,6 +58,13 @@ public class ServicioCategorias implements IServicioCategorias{
 
 	public boolean modificarCategoria(String idCategoria, String descripcion, String idUsuario) {
 		try {
+			
+			Usuario usuario = repositorioUsuarios.getById(idUsuario);
+			if (!usuario.esAdministrador()) {
+				System.err.println("Error al modificar: El usuario " + idUsuario + " no es administrador.");
+				return false; 
+			}
+			
 			Categoria categoria = repositorioCategorias.getById(idCategoria);
 			categoria.setDescripcion(descripcion);
 	

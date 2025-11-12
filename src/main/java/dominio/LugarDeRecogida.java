@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 public class LugarDeRecogida {
 
 	/** Descripción del lugar de recogida */
-	private String descripcion;
+	private String recogida;
 	/** Longitud geográfica */
 	private int longitud;
 	/** Latitud geográfica */
@@ -25,8 +25,8 @@ public class LugarDeRecogida {
 	
 	
 	
-	public LugarDeRecogida(String descripcion, int longitud, int latitud) {
-		this.descripcion = descripcion;
+	public LugarDeRecogida(String recogida, int longitud, int latitud) {
+		this.recogida = recogida;
 		this.longitud = longitud;
 		this.latitud = latitud;
 	}

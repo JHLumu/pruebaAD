@@ -1,6 +1,7 @@
 package repositorios;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,15 +22,22 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 	public List<ProductoResumen> getHistorialVentas(LocalDate fecha) throws RepositorioException {
 		
 		try {
-			int month = fecha.getMonthValue();
-			int year = fecha.getYear();
+			// REQUISITO: Filtrar por mes y año.
+			LocalDateTime inicioDelMes = fecha.withDayOfMonth(1).atStartOfDay();
+			LocalDateTime finDelMes = fecha.withDayOfMonth(fecha.lengthOfMonth()).atTime(23, 59, 59);
+
 			EntityManager em = EntityManagerHelper.getEntityManager();
-			String queryString = "SELECT p.titulo, p.precio, p.fecha, p.categoria, p.visualizaciones"
-					+ "FROM Producto p"
-					+ "WHERE MONTH(p.fecha) = month AND YEAR(p.fecha) = year ";
+			
+			// REQUISITO: Resumen con id, título, precio, fecha, nombre categoría, visualizaciones, ordenado por visitas DESC.
+			String queryString = "SELECT NEW utils.ProductoResumen(p.id, p.titulo, p.precio, p.fechaPublicacion, p.categoria.nombre, p.visualizaciones) "
+					+ "FROM Producto p "
+					+ "WHERE p.fechaPublicacion BETWEEN :inicio AND :fin " 
+					+ "ORDER BY p.visualizaciones DESC";
+			
 			TypedQuery<ProductoResumen> query = em.createQuery(queryString, ProductoResumen.class);
-			query.setParameter("month", month);
-			query.setParameter("year", year);
+			
+			query.setParameter("inicio", inicioDelMes);
+			query.setParameter("fin", finDelMes);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 			
 			return query.getResultList();
@@ -47,34 +55,55 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 			double precioMaximo) throws RepositorioException, EntidadNoEncontrada {
 
 		try {
-		
 			EntityManager em = EntityManagerHelper.getEntityManager();
 			
-			String queryCategoria = "";
+			StringBuilder queryString = new StringBuilder("SELECT p FROM Producto p WHERE 1=1");
 			
-			if (this.getById(idCategoria) == null) throw new EntidadNoEncontrada("La categoria pasada como filtro");
+			String rutaCategoria = null;
+			
+			// REQUISITO: Filtro de Categoría y descendientes (usando ruta)
+			if (idCategoria != null && !idCategoria.isEmpty()) {
+				try {
+					Categoria cat = em.find(Categoria.class, idCategoria);
+					if (cat == null) throw new EntidadNoEncontrada("La categoria pasada como filtro (" + idCategoria + ") no existe");
+					rutaCategoria = cat.getRuta();
+					queryString.append(" AND p.categoria.ruta LIKE :rutaCategoria"); 
+				} catch (RuntimeException e) {
+					throw new RepositorioException("Error al buscar la categoría para el filtro", e);
+				}
+			}
 				
-			queryCategoria = "AND (p.categoria == idCategoria OR "
-					+ "p.categoria IN (SELECT c.subcategorias from Categoria c"
-					+ "WHERE c.id == idCategoria))";
+			// REQUISITO: Texto en descripción (opcional)
+			if (textoContenido != null && !textoContenido.isEmpty()) { 
+				queryString.append(" AND p.descripcion LIKE CONCAT('%', :texto, '%')");
+			}
 			
-			String queryTexto = "";
-			if (textoContenido != null && textoContenido.isEmpty()) queryTexto = "AND (p.descripcion LIKE CONCAT('%', :texto, '%'))";
+			// REQUISITO: Estado "igual o mejor" (opcional)
+			if (estado != null) {
+				queryString.append(" AND p.estado <= :estado"); 
+			}
 			
-			String queryEstado = "";
-			if (estado != null) queryEstado = "AND p.estado == estado";
+			// REQUISITO: Precio máximo (opcional)
+			if (precioMaximo > 0) {
+				queryString.append(" AND p.precio <= :precioMaximo");
+			}
 			
-			String queryString = "SELECT p "
-					+ "FROM Producto p"
-					+ "WHERE 1=1"
-					+ queryCategoria
-					+ queryTexto
-					+ queryEstado;
+			TypedQuery<Producto> query = em.createQuery(queryString.toString(), Producto.class);
 			
-			TypedQuery<Producto> query = em.createQuery(queryString, Producto.class);
-			if (!queryCategoria.isEmpty()) query.setParameter("idCategoria", idCategoria);
-			if (!queryTexto.isEmpty()) query.setParameter("texto", textoContenido);
-			if (!queryEstado.isEmpty()) query.setParameter("estado", estado);
+			// Asignar parámetros
+			if (rutaCategoria != null) {
+				query.setParameter("rutaCategoria", rutaCategoria + "%");
+			}
+			if (textoContenido != null && !textoContenido.isEmpty()) {
+				query.setParameter("texto", textoContenido);
+			}
+			if (estado != null) {
+				query.setParameter("estado", estado);
+			}
+			if (precioMaximo > 0) {
+				query.setParameter("precioMaximo", precioMaximo);
+			}
+			
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 			
 			return query.getResultList();
@@ -84,7 +113,6 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 		}finally {
 			EntityManagerHelper.closeEntityManager();
 		}
-		
 	}
 
 }
