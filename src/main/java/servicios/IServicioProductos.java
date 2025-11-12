@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import dominio.Categoria;
 import dominio.EstadoProducto;
 import dominio.Producto;
 import utils.ProductoResumen;

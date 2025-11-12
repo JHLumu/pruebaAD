@@ -6,7 +6,6 @@ import dominio.Categoria;
 import dominio.Usuario;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
-import repositorios.RepositorioCategoriasJPA;
 import repositorios.RepositorioUsuariosJPA;
 import repositorios.RepositorioCategoriasAdHocJPA;
 import repositorios.RepositorioException;

@@ -23,11 +23,51 @@ public class LugarDeRecogida {
 	public LugarDeRecogida() {};
 	
 	
-	
-	
 	public LugarDeRecogida(String recogida, int longitud, int latitud) {
 		this.recogida = recogida;
 		this.longitud = longitud;
 		this.latitud = latitud;
 	}
+	
+	public String getRecogida() {
+		return recogida;
+	}
+
+
+
+
+	public void setRecogida(String recogida) {
+		this.recogida = recogida;
+	}
+
+
+
+
+	public int getLongitud() {
+		return longitud;
+	}
+
+
+
+
+	public void setLongitud(int longitud) {
+		this.longitud = longitud;
+	}
+
+
+
+
+	public int getLatitud() {
+		return latitud;
+	}
+
+
+
+
+	public void setLatitud(int latitud) {
+		this.latitud = latitud;
+	}
+
+
+
 }

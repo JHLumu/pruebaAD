@@ -54,7 +54,6 @@ public class Programa {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	private static void probarServicioUsuarios() throws RepositorioException, EntidadNoEncontrada {
 		System.out.println("\n--- Probando ServicioUsuarios ---");
 

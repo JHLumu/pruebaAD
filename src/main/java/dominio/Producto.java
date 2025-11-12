@@ -35,7 +35,7 @@ public class Producto implements Identificable {
 	/** Precio del producto */
 	private double precio;
 	/** Estado actual del producto */
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private EstadoProducto estado;
 	/** Fecha en la que se publicó el producto */
 	private LocalDateTime fechaPublicacion;
