@@ -10,6 +10,7 @@ import dominio.EstadoProducto;
 import dominio.LugarDeRecogida;
 import dominio.Producto;
 import dominio.Usuario;
+import dominio.dto.ProductoDTO;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
 import repositorios.RepositorioProductosAdHoc;
@@ -147,6 +148,19 @@ public class ServicioProductos implements IServicioProductos{
 		} catch (EntidadNoEncontrada e) {
 			return Collections.emptyList();
 		}
+		
+	}
+
+	@Override
+	public List<ProductoDTO> getProductosEnVenta(String idVendedor) {
+		if (idVendedor != null && idVendedor.isEmpty())
+			try {
+				return repositorioProductos.getProductosEnVenta(idVendedor);
+			} catch (RepositorioException e) {
+				e.printStackTrace();
+				return Collections.emptyList();
+			}
+		else return Collections.emptyList();
 		
 	}
 

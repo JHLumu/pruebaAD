@@ -5,6 +5,7 @@ import java.util.List;
 
 import dominio.EstadoProducto;
 import dominio.Producto;
+import dominio.dto.ProductoDTO;
 import utils.ProductoResumen;
 
 public interface RepositorioProductosAdHoc extends RepositorioString<Producto>{
@@ -13,5 +14,6 @@ public interface RepositorioProductosAdHoc extends RepositorioString<Producto>{
 	
 	public List<Producto> getByFiltros(String idCategoria, String textoContenido, EstadoProducto estado, double precioMaximo) throws RepositorioException, EntidadNoEncontrada;
 	
+	public List<ProductoDTO> getProductosEnVenta(String idVendedor) throws RepositorioException;
 }
 

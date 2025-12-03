@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import dominio.EstadoProducto;
 import dominio.Producto;
+import dominio.dto.ProductoDTO;
 import utils.ProductoResumen;
 
 public interface IServicioProductos {
@@ -21,4 +22,6 @@ public interface IServicioProductos {
 	public List<ProductoResumen> getHistorialVentas(LocalDate fecha);
 	
 	public List<Producto> getProductoByFiltros(String idCategoria, String textoContenido, EstadoProducto estado, double precioMaximo);
+	
+	public List<ProductoDTO> getProductosEnVenta(String idVendedor);
 }

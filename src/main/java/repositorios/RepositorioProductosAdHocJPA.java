@@ -13,6 +13,7 @@ import org.eclipse.persistence.config.QueryHints;
 import dominio.Categoria;
 import dominio.EstadoProducto;
 import dominio.Producto;
+import dominio.dto.ProductoDTO;
 import utils.EntityManagerHelper;
 import utils.ProductoResumen;
 
@@ -109,6 +110,26 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 			return query.getResultList();
 			
 		}catch(RuntimeException e){
+			throw new RepositorioException("Error buscando by filtros", e);
+		}finally {
+			EntityManagerHelper.closeEntityManager();
+		}
+	}
+	
+	@Override
+	public List<ProductoDTO> getProductosEnVenta(String idVendedor) throws RepositorioException{
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+			String queryString = "SELECT NEW dominio.dto.ProductoDTO(p.id, p.titulo, p.precio, p.fechaPublicacion,"
+					+ " p.estado, p.categoria, p.visualizaciones)"
+					+ " FROM Producto p"
+					+ " WHERE p.vendedor_id == :idVendedor";
+			TypedQuery<ProductoDTO> query = em.createQuery(queryString, ProductoDTO.class);
+			
+			query.setParameter("idVendedor", idVendedor);
+			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
+			return query.getResultList();
+		}catch(RuntimeException e) {
 			throw new RepositorioException("Error buscando by filtros", e);
 		}finally {
 			EntityManagerHelper.closeEntityManager();

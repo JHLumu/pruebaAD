@@ -3,7 +3,6 @@ package repositorios;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.HintValues;
@@ -129,7 +128,7 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
         try {
             final String queryString = " SELECT t.id from " + getClase().getSimpleName() + " t ";
 
-            Query query = em.createQuery(queryString);
+            TypedQuery<String> query = em.createQuery(queryString, String.class);
             query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 
             return query.getResultList();

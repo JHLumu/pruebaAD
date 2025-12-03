@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import dominio.Usuario;
+import dominio.dto.UsuarioDTO;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
 import repositorios.RepositorioException;
@@ -83,6 +84,18 @@ public class ServicioUsuarios implements IServicioUsuarios {
 		}
 	}
 	
-
+	@Override
+	public Optional<UsuarioDTO> iniciarSesion(String email, String clave) {
+		
+		try {
+			repositorio.getByEmailAndPassword(email, clave);
+		} catch (EntidadNoEncontrada | RepositorioException e) {
+			e.printStackTrace();
+			return Optional.empty();
+		}
+		
+		return null;
+		
+	}
 	
 }

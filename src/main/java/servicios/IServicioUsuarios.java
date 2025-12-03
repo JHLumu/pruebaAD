@@ -3,6 +3,7 @@ package servicios;
 import java.time.LocalDate;
 import java.util.Optional;
 import dominio.Usuario;
+import dominio.dto.UsuarioDTO;
 
 public interface IServicioUsuarios {
 
@@ -12,5 +13,5 @@ public interface IServicioUsuarios {
 	
 	public Usuario recuperarUsuario(String idUsuario);
 	
-
+	public Optional<UsuarioDTO> iniciarSesion(String email, String clave);
 }
