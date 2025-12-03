@@ -12,17 +12,17 @@ import dominio.Producto;
 import dominio.Usuario;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
-import repositorios.RepositorioProductosAdHocJPA;
-import repositorios.RepositorioUsuariosJPA;
-import repositorios.RepositorioCategoriasAdHocJPA;
+import repositorios.RepositorioProductosAdHoc;
+import repositorios.RepositorioUsuariosAdHoc;
+import repositorios.RepositorioCategoriasAdHoc;
 import repositorios.RepositorioException;
 import utils.ProductoResumen;
 
 public class ServicioProductos implements IServicioProductos{
 
-	public RepositorioProductosAdHocJPA repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
-	public RepositorioCategoriasAdHocJPA repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
-	public RepositorioUsuariosJPA repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
+	public RepositorioProductosAdHoc repositorioProductos = FactoriaRepositorios.getRepositorio(Producto.class);
+	public RepositorioCategoriasAdHoc repositorioCategorias = FactoriaRepositorios.getRepositorio(Categoria.class);
+	public RepositorioUsuariosAdHoc repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
 	@Override
 	public Optional<String> registrarProducto(String titulo, String descripcion, double precio, EstadoProducto estado,
@@ -42,6 +42,7 @@ public class ServicioProductos implements IServicioProductos{
 			boolean envio = "true".equalsIgnoreCase(disponibilidadEnvio);
 			
 			Producto producto = new Producto(titulo, descripcion, precio, estado, categoria, vendedor, envio);
+	
 			// Se persiste Y se devuelve la id del producto.
 			String id = repositorioProductos.add(producto);
 			return Optional.of(id);

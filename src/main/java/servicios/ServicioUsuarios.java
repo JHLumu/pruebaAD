@@ -7,11 +7,11 @@ import dominio.Usuario;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
 import repositorios.RepositorioException;
-import repositorios.RepositorioUsuariosJPA;
+import repositorios.RepositorioUsuariosAdHoc;
 
 public class ServicioUsuarios implements IServicioUsuarios {
 
-	public RepositorioUsuariosJPA repositorio = FactoriaRepositorios.getRepositorio(Usuario.class);
+	public RepositorioUsuariosAdHoc repositorio = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
 	@Override
 	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, LocalDate fecha, String telefono) {
@@ -20,10 +20,12 @@ public class ServicioUsuarios implements IServicioUsuarios {
 			    || (correo == null || correo.isEmpty()) || (clave == null || clave.isEmpty()) ||
 			    (fecha == null)) return Optional.empty();
 		
-		Usuario nuevoUsuario;
-		if (telefono != null && !telefono.isEmpty()) nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false, telefono);
-		else nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false);
+		
 		try {
+			if (!repositorio.checkEmailAndTelefono(correo, telefono)) return Optional.empty();
+			Usuario nuevoUsuario;
+			if (telefono != null && !telefono.isEmpty()) nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false, telefono);
+			else nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false);
 			String id = this.repositorio.add(nuevoUsuario);
 			nuevoUsuario.setId(id);
 			return Optional.of(id);

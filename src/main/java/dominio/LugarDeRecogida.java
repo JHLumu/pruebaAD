@@ -1,6 +1,7 @@
 package dominio;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 
 /**
  * Representa un lugar de recogida para un producto.
@@ -10,11 +11,12 @@ import javax.persistence.Embeddable;
 public class LugarDeRecogida {
 
 	/** Descripción del lugar de recogida */
+	@Lob
 	private String recogida;
 	/** Longitud geográfica */
-	private int longitud;
+	private double longitud;
 	/** Latitud geográfica */
-	private int latitud;
+	private double latitud;
 	
 	
 	/**
@@ -43,28 +45,28 @@ public class LugarDeRecogida {
 
 
 
-	public int getLongitud() {
+	public double getLongitud() {
 		return longitud;
 	}
 
 
 
 
-	public void setLongitud(int longitud) {
+	public void setLongitud(double longitud) {
 		this.longitud = longitud;
 	}
 
 
 
 
-	public int getLatitud() {
+	public double getLatitud() {
 		return latitud;
 	}
 
 
 
 
-	public void setLatitud(int latitud) {
+	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
 

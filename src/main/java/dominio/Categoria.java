@@ -33,6 +33,7 @@ public class Categoria implements Identificable{
 	@XmlAttribute
 	private String descripcion;
 	/** Ruta asociada a la categoría (puede ser utilizada para navegación o almacenamiento) */
+	@Lob
 	@XmlAttribute
 	private String ruta;
 	/** Subcategoría asociada, si existe */

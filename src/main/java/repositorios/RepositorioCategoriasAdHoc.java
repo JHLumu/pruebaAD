@@ -4,7 +4,7 @@ import java.util.List;
 
 import dominio.Categoria;
 
-public interface RepositorioCategoriasAdHoc {
+public interface RepositorioCategoriasAdHoc extends RepositorioString<Categoria>{
 
 	public List<Categoria> getCategoriasRaiz() throws RepositorioException;
 	
