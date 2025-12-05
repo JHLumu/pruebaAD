@@ -25,7 +25,7 @@ public class LugarDeRecogida {
 	public LugarDeRecogida() {};
 	
 	
-	public LugarDeRecogida(String recogida, int longitud, int latitud) {
+	public LugarDeRecogida(String recogida, double longitud, double latitud) {
 		this.recogida = recogida;
 		this.longitud = longitud;
 		this.latitud = latitud;

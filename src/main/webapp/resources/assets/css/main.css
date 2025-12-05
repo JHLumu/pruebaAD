@@ -116,6 +116,22 @@ input, select, textarea {
 		background: #252122;
 		background-image: url("#{resource['assets/css/images/bg02.png']}");
 	}
+	
+	#page-wrapper {
+		min-height: 100vh;
+		display: grid;
+		grid-template-rows: 10vh 1fr 10vh;
+		
+	}
+	
+	#header, #main, #footer {
+		place-self: stretch;
+		width: 100%;
+  		height: 100%;
+  		box-sizing: border-box;
+	}
+	
+	
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -210,7 +226,6 @@ input, select, textarea {
 	.container {
 		margin: 0 auto;
 		max-width: 100%;
-		width: 70em;
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -2092,36 +2107,63 @@ input, select, textarea {
 		margin-bottom: 0;
 	}
 
+
 /* Header */
 
 	#header {
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
 		background: #ffffff;
 		border-bottom: solid 1px #ccc;
-		padding: 5em 0 4em 0;
+		padding: 2em;
 		text-align: center;
 	}
 
 		#header h1 {
 			color: #252122;
 			font-weight: 900;
-			font-size: 2.5em;
+			font-size: 2em;
 			letter-spacing: -0.035em;
 			line-height: 1;
 		}
 
+
+/* Botones de acceso */
+
+
+	#acceso {
+		display: flex;
+		gap: 0.5em;
+	}
+
+
+
+
 /* Nav */
 
-	#nav {
-		margin: 2.5em 0 0 0;
-	}
+		#nav {
+		display: flex;
+		}
+		
+		#nav > h1 {
+		
+			align-self: flex-start;
+		
+		}
 
 		#nav > ul {
 			margin: 0;
+			display: flex;
+			justify-content: center;
+			list-style-type: none;
+			padding: 0;
 		}
 
 			#nav > ul > li {
-				display: inline-block;
+				display: block;
 				font-style: italic;
 				margin: 0 0.35em 0 0.35em;
 			}
@@ -2130,8 +2172,9 @@ input, select, textarea {
 					display: none;
 				}
 
-				#nav > ul > li > a {
+				#nav > ul > li > a, #login, #signup {
 					border-radius: 5px;
+					display: block;
 					color: #5d5d5d;
 					text-decoration: none;
 					padding: 0.6em 1.2em 0.6em 1.2em;
@@ -2142,11 +2185,12 @@ input, select, textarea {
 					outline: 0;
 				}
 
-				#nav > ul > li:hover > a, #nav > ul > li.active > a {
+				#nav > ul > li:hover > a, #nav > ul > li.active > a, #signup:hover {
 					background: #f3f3f3;
 				}
+				
 
-				#nav > ul > li.current > a {
+				#nav > ul > li.current > a, #login{
 					background: #d52349;
 					color: #fff !important;
 					font-weight: 700;
@@ -2296,20 +2340,9 @@ input, select, textarea {
 	#main {
 		position: relative;
 		background: #f7f7f7 url("#{resource['assets/css/images/bg02.png']}");
-		padding: 4em 0 4em 0;
+		display: flex;
+		align-items: center;
 	}
-
-		#main:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			background: url("#{resource['assets/css/images/bg01.png']}");
-			background-size: 100% 100%;
-			z-index: 0;
-			opacity: 0.1;
-		}
 
 		#main .major h2 {
 			background: #f7f7f7 url("#{resource['assets/css/images/bg02.png']}");
@@ -2318,25 +2351,20 @@ input, select, textarea {
 /* Footer */
 
 	#footer {
+		background: rgb(255, 255, 255);
 		position: relative;
 		color: #858484;
-		padding: 4em 0;
+		display:flex;
+		flex-direction: rpw;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1em 2em 1em 2em;
+		border-top:  solid 1px #ccc;
+	
 	}
 
-		#footer:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			background: url("#{resource['assets/css/images/bg01.png']}");
-			background-size: 100% 100%;
-			z-index: 0;
-			opacity: 0.5;
-		}
-
-		#footer a {
-			color: #c5c4c4;
+		#footer p {
+			margin: 0;
 		}
 
 		#footer h2, #footer h3, #footer h4, #footer h5, #footer h6, #footer strong, #footer b {
@@ -2366,12 +2394,11 @@ input, select, textarea {
 
 	#copyright {
 		text-align: center;
-		margin: 3em 0 2em 0;
 	}
 
 		#copyright ul.links {
 			display: inline-block;
-			background: #2C2929;
+			background: rgb(243, 243, 243);
 			background: rgba(255, 255, 255, 0.05);
 			border-radius: 5px;
 			margin: 0;
@@ -2447,30 +2474,6 @@ input, select, textarea {
 					right: -12px;
 				}
 
-		/* Main */
-
-			#main {
-				padding: 30px 0;
-			}
-
-		/* Footer */
-
-			#footer {
-				padding: 3em 0;
-			}
-
-				#footer:before {
-					height: 2.5em;
-				}
-
-				#footer header {
-					margin: 0 0 1.5em 0;
-				}
-
-					#footer header h2 {
-						font-size: 1.25em;
-					}
-
 		/* Copyright */
 
 			#copyright {
@@ -2518,6 +2521,7 @@ input, select, textarea {
 
 			#nav {
 				display: none;
+				padding: 0;
 			}
 
 		/* Intro */
@@ -2554,12 +2558,6 @@ input, select, textarea {
 						margin-bottom: 0;
 					}
 
-		/* Main */
-
-			#main {
-				padding: 40px 0;
-			}
-
 		/* Copyright */
 
 			#copyright ul.links {
@@ -2569,6 +2567,7 @@ input, select, textarea {
 		/* Nav */
 
 			#page-wrapper {
+				
 				-moz-backface-visibility: hidden;
 				-webkit-backface-visibility: hidden;
 				-ms-backface-visibility: hidden;
@@ -2875,6 +2874,7 @@ input, select, textarea {
 			#header {
 				text-align: center;
 				padding: 2em 0;
+				flex-direction: row;
 			}
 
 				#header h1 {
@@ -2921,17 +2921,5 @@ input, select, textarea {
 					#banner header p {
 						font-size: 1.2em;
 					}
-
-		/* Main */
-
-			#main {
-				padding: 20px 0;
-			}
-
-		/* Footer */
-
-			#footer {
-				padding: 40px 0 20px 0;
-			}
 
 	}

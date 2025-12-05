@@ -123,7 +123,7 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 			String queryString = "SELECT NEW dominio.dto.ProductoDTO(p.id, p.titulo, p.precio, p.fechaPublicacion,"
 					+ " p.estado, p.categoria, p.visualizaciones)"
 					+ " FROM Producto p"
-					+ " WHERE p.vendedor_id == :idVendedor";
+					+ " WHERE p.vendedor_id = :idVendedor";
 			TypedQuery<ProductoDTO> query = em.createQuery(queryString, ProductoDTO.class);
 			
 			query.setParameter("idVendedor", idVendedor);

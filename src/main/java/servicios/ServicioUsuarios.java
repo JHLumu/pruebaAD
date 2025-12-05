@@ -88,13 +88,11 @@ public class ServicioUsuarios implements IServicioUsuarios {
 	public Optional<UsuarioDTO> iniciarSesion(String email, String clave) {
 		
 		try {
-			repositorio.getByEmailAndPassword(email, clave);
+			return Optional.of(repositorio.getByEmailAndPassword(email, clave));
 		} catch (EntidadNoEncontrada | RepositorioException e) {
-			e.printStackTrace();
+			
 			return Optional.empty();
 		}
-		
-		return null;
 		
 	}
 	

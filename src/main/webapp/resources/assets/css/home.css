@@ -1,0 +1,43 @@
+/*--Archivo css utilizado para los componentes de la vista de inicio-*/
+
+.presentacion {
+	display: flex;
+	max-width: auto;
+	align-items: stretch;
+	flex-direction: column;
+	justify-content: space-between;
+	text-align: center;
+	padding: 3em;
+}
+
+.presentacion .titulo {
+	font-size: 2em;
+	font-weight: 900;
+	padding-bottom: 1em;
+}
+
+.boton-vender {
+    background-color: #000;
+    color: #fff;
+    width: 20%;
+    align-self: center;
+    padding: 0.8em 1.6em;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.boton-vender:hover {
+    background-color: #111;
+    transform: translateY(-2px);
+}
+
+.boton-vender:active {
+    transform: translateY(0);
+    background-color: #000;
+}
+
+

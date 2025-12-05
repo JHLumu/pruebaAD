@@ -84,8 +84,8 @@ public class Producto implements Identificable {
 		
 	}
 	
-	public void setLugarDeRecogida(LugarDeRecogida recogida) {
-		this.recogida = recogida;
+	public void setLugarDeRecogida(String descripcion, double longitud, double latitud) {
+		this.recogida = new LugarDeRecogida(descripcion, longitud, latitud);
 	}
 	
 	public LugarDeRecogida getLugarDeRecogida() {

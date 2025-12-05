@@ -48,7 +48,6 @@ public class ServicioProductos implements IServicioProductos{
 			String id = repositorioProductos.add(producto);
 			return Optional.of(id);
 		} catch (EntidadNoEncontrada e) {
-			e.printStackTrace();
 			return Optional.empty();
 		} catch (RepositorioException e) {		
 			e.printStackTrace();
@@ -58,13 +57,12 @@ public class ServicioProductos implements IServicioProductos{
 	}
 
 	@Override
-	public boolean asignarLugarRecogida(String idProducto,  String descripcion, int longitud, int latitud) {
+	public boolean asignarLugarRecogida(String idProducto,  String descripcion, double longitud, double latitud) {
 		
 		try {
 			
 			Producto producto = repositorioProductos.getById(idProducto);
-			LugarDeRecogida lugar = new LugarDeRecogida(descripcion, longitud, latitud);
-			producto.setLugarDeRecogida(lugar);
+			producto.setLugarDeRecogida(descripcion, longitud, latitud);
 			repositorioProductos.update(producto); 
 			return true;
 			

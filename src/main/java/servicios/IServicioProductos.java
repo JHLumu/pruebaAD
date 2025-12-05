@@ -13,7 +13,7 @@ public interface IServicioProductos {
 
 	public Optional<String> registrarProducto(String titulo, String descripcion, double precio, EstadoProducto estado, String idCategoria, String disponibilidadEnvio, String IDVendedor);
 	
-	public boolean asignarLugarRecogida(String idProducto, String descripcion, int longitud, int latitud);
+	public boolean asignarLugarRecogida(String idProducto, String descripcion, double longitud, double latitud);
 	
 	public boolean modificarProducto(String identificador, double precio, String descripcion);
 	

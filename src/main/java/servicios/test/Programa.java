@@ -9,6 +9,7 @@ import dominio.Categoria;
 import dominio.EstadoProducto;
 import dominio.Producto;
 import dominio.Usuario;
+import dominio.dto.UsuarioDTO;
 import repositorios.EntidadNoEncontrada;
 import repositorios.FactoriaRepositorios;
 import repositorios.RepositorioException;
@@ -37,7 +38,7 @@ public class Programa {
 
 	public static void main(String[] args) {
 		
-		System.out.println("--- INICIO DE PRUEBAS DE SERVICIOS SEGNDUM ---");
+		System.out.println("--- INICIO DE PRUEBAS DE SERVICIOS SEGUNDUM ---");
 
 		try {
 
@@ -94,6 +95,26 @@ public class Programa {
 		}
 
 
+		System.out.println("Probando inicio de sesión de usuario con credenciales correctas" + "...");
+		Optional<UsuarioDTO> acceso = servicioUsuarios.iniciarSesion("user@segundum.es", "user123");
+		if (acceso.isEmpty()) System.out.println("Prueba FALLIDA: Inicio de sesión ha fallado.");
+		else System.out.println("Prueba Exitosa: Inicio de sesión ha sido correcto.");
+		
+		System.out.println("Probando inicio de sesión de usuario con credenciales incorrectas" + "...");
+		Optional<UsuarioDTO> acceso2 = servicioUsuarios.iniciarSesion("user@segundum.es", "user223");
+		if (acceso2.isEmpty()) System.out.println("Prueba Exitosa: Inicio de sesión ha fallado.");
+		else System.out.println("Prueba FALLIDA: Inicio de sesión ha sido correcto.");
+		
+		System.out.println("Probando inicio de sesión de usuario con credenciales incorrectas" +  "...");
+		Optional<UsuarioDTO> acceso3 = servicioUsuarios.iniciarSesion("user1@segundum.es", "user123");
+		if (acceso3.isEmpty()) System.out.println("Prueba Exitosa: Inicio de sesión ha fallado.");
+		else System.out.println("Prueba FALLIDA: Inicio de sesión ha sido correcto.");
+		
+		System.out.println("Probando inicio de sesión de usuario con credenciales incorrectas" + "...");
+		Optional<UsuarioDTO> acceso4 = servicioUsuarios.iniciarSesion("user1@segundum.es", "user223");
+		if (acceso4.isEmpty()) System.out.println("Prueba Exitosa: Inicio de sesión ha fallado.");
+		else System.out.println("Prueba FALLIDA: Inicio de sesión ha sido correcto.");
+		
 		System.out.println("Modificando usuario " + idUser + "...");
 		boolean modificado = servicioUsuarios.modificarUsuario(idUser, "Usuario Modificado", null, null, "claveNueva", null, "700800900");
 		if (modificado) {

@@ -18,20 +18,16 @@ public class RepositorioUsuariosAdHocJPA extends RepositorioUsuariosJPA implemen
 		
 		try {
 			EntityManager em = EntityManagerHelper.getEntityManager();
-			String queryString = "SELECT id"
-					+ "FROM Usuario u "
-					+ "WHERE u.correo == :correo AND u.telefono == :telefono";
+			String queryString = "SELECT COUNT(u)"
+					+ " FROM Usuario u "
+					+ " WHERE u.correo = :correo AND u.telefono = :telefono";
 			
-			TypedQuery<String> query = em.createNamedQuery(queryString, String.class);
+			TypedQuery<Long> query = em.createQuery(queryString, Long.class);
 			query.setParameter("correo", correo);
 			query.setParameter("telefono", telefono);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-			query.getSingleResult();
-			//En caso de que getSingleResult no haya encontrado nada o haya encontrado más de un valor, lanza excepciones.
-			return true;
-		
-		}catch(NoResultException e) {
-			return false;
+			Long resultado = query.getSingleResult();
+			return resultado.equals(0L);
 			
 		}catch(RuntimeException e) {
 			throw new RepositorioException("Error buscando usuarios por correo y teléfono", e);
@@ -50,8 +46,8 @@ public class RepositorioUsuariosAdHocJPA extends RepositorioUsuariosJPA implemen
 			String queryString = "SELECT NEW dominio.dto.UsuarioDTO(u.id, u.nombre, u.apellidos, u.correo, "
 			+ "u.fechaNacimiento, u.telefono, u.esAdministrador)"
 			+ " FROM Usuario u" 
-			+ "WHERE u.email == :email AND u.clave == :clave";
-			TypedQuery<UsuarioDTO> query = em.createNamedQuery(queryString, UsuarioDTO.class);
+			+ " WHERE u.correo = :email AND u.clave = :clave";
+			TypedQuery<UsuarioDTO> query = em.createQuery(queryString, UsuarioDTO.class);
 			query.setParameter("email", email);
 			query.setParameter("clave", clave);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
