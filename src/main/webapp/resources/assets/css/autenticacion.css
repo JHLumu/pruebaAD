@@ -1,0 +1,89 @@
+
+#html, body {
+	min-height: 100vh;
+	min-width: 100wh;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#card {
+	display: grid;
+	gap: 1.5em;
+	align-items: center;
+	width: 50em;
+	height: auto;
+	padding: 2em;
+	text-align: center;
+	background-color: rgb(250, 250, 250);
+	border: 1px solid rgb(219, 219, 219);
+	border-radius: 20px;
+	
+}
+
+.formLoginStyle {
+	display: grid;
+	gap: 0.5em;
+}
+
+.formSignupStyle {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5em;
+}
+
+.inputFormSignupStyle {
+	display: grid;
+	grid-template-columns: 40% 60%;
+	flex-direction: row;
+	gap: 1em;
+	align-items:center;
+}
+
+.submitFormSignUpStyle {
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	grid-column: 1 / -1;
+}
+
+.btnStyle.ui-button {
+	color: white;
+	background: rgb(0, 0, 0);
+	border: 0px;
+	grid-column: 1 / -1;      
+}
+
+.btnStyle.ui-button:hover {
+	color: white;
+	background: rgb(255, 0, 0);
+	border-color:  rgb(204, 51, 51);      
+}
+
+.redirectLogin{
+	grid-column: 1 / -1;
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+}
+
+/*Los botones del calendario no son visibles. Por ello se redefine su estilo css.*/
+
+.ui-datepicker-next, .ui-datepicker-prev{
+	background: black !important;
+}
+
+#logo {
+	width: 40px;
+	justify-self: center;
+	height: 40px;
+}
+
+#titulo {
+	font-size: 1.5em;
+}

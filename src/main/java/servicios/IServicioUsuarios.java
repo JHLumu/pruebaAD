@@ -7,7 +7,7 @@ import dominio.dto.UsuarioDTO;
 
 public interface IServicioUsuarios {
 
-	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, LocalDate fecha, String telefono);
+	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, String confirmarClave, LocalDate fecha, String telefono);
 	
 	public boolean modificarUsuario(String idUsuario, String nombre, String apellido,String correo,String clave, LocalDate fecha, String telefono);
 	

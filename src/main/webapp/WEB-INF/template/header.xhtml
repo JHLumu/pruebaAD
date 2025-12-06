@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  >
+
 <body>
-	<section id="header">
+	<h:panelGroup id="header">
 			<h1>
 				<a href="#{request.contextPath}/index.xhtml">Segundum</a>
 			</h1>
@@ -19,11 +23,11 @@
 					href="#{request.contextPath}/productos.xhtml">Productos</a>
                 </li>
                 
-                <li class="#{estilo2}"><a
+                <li class="#{estilo3}"><a
 					href="#{request.contextPath}/publicar.xhtml">Publicar</a>
                 </li>
                 
-                <li class="#{estilo2}"><a
+                <li class="#{estilo4}"><a
 					href="#{request.contextPath}/buscar.xhtml">Buscar</a>
                 </li>
 				
@@ -32,16 +36,18 @@
 			
 			</nav> 
 		
-			
-			<div id="acceso">
+			<h:form>
+				<h:panelGroup layout="block" styleClass="acceso" rendered="#{autenticacionWeb.id == null}">
+					<a id="login" href="#{request.contextPath}/login.xhtml">Iniciar sesión</a>
+					<a id="signup" href="#{request.contextPath}/signup.xhtml">Registrarse</a>
+				</h:panelGroup>
 				
-				<a id="login" href="#{request.contextPath}/login.xhtml">Iniciar sesión</a>
-				<a id="signup" href="#{request.contextPath}/signup.xhtml">Registrarse</a>
-				
-			</div>
+				<h:panelGroup layout="block" styleClass="acceso" rendered="#{autenticacionWeb.id != null}">
+					<p:commandLink value="Cerrar Sesión" action="#{autenticacionWeb.cerrarSesion()}"></p:commandLink>
+				</h:panelGroup>
+			</h:form>
 			
-			
-			</section>
+			</h:panelGroup>
 			
 			
 </body>

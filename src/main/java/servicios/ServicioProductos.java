@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import dominio.Categoria;
 import dominio.EstadoProducto;
-import dominio.LugarDeRecogida;
 import dominio.Producto;
 import dominio.Usuario;
 import dominio.dto.ProductoDTO;

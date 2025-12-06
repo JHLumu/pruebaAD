@@ -60,7 +60,7 @@ public class Programa {
 
 
 		System.out.println("Registrando usuario (Admin)...");
-		Optional<String> idAdminOpt = servicioUsuarios.registrarUsuario("Admin", "SegundUM", "admin@segundum.es", "admin123", LocalDate.of(2000, 1, 1), "600111222");
+		Optional<String> idAdminOpt = servicioUsuarios.registrarUsuario("Admin", "SegundUM", "admin@segundum.es", "admin123", "admin123", LocalDate.of(2000, 1, 1), "600111222");
 		if (idAdminOpt.isPresent()) {
 			idAdmin = idAdminOpt.get();
 			System.out.println("Usuario Admin CREADO con ID: " + idAdmin);
@@ -85,7 +85,7 @@ public class Programa {
 
 
 		System.out.println("Registrando usuario (User)...");
-		Optional<String> idUserOpt = servicioUsuarios.registrarUsuario("Usuario", "Pruebas", "user@segundum.es", "user123", LocalDate.of(1995, 5, 10), null);
+		Optional<String> idUserOpt = servicioUsuarios.registrarUsuario("Usuario", "Pruebas", "user@segundum.es", "user123", "user123", LocalDate.of(1995, 5, 10), null);
 		if (idUserOpt.isPresent()) {
 			idUser = idUserOpt.get();
 			System.out.println("Usuario User CREADO con ID: " + idUser);

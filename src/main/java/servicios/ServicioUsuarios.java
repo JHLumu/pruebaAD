@@ -15,15 +15,16 @@ public class ServicioUsuarios implements IServicioUsuarios {
 	public RepositorioUsuariosAdHoc repositorio = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
 	@Override
-	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, LocalDate fecha, String telefono) {
+	public Optional<String> registrarUsuario(String nombre, String apellido, String correo, String clave, String confirmarClave, LocalDate fecha, String telefono) {
 		
 		if ((nombre == null || nombre.isEmpty()) || (apellido == null || apellido.isEmpty())
 			    || (correo == null || correo.isEmpty()) || (clave == null || clave.isEmpty()) ||
-			    (fecha == null)) return Optional.empty();
+			    (fecha == null) || (confirmarClave == null || confirmarClave.isEmpty())) return Optional.empty();
 		
+		if (!clave.equals(confirmarClave)) return Optional.empty();
 		
 		try {
-			if (!repositorio.checkEmailAndTelefono(correo, telefono)) return Optional.empty();
+			if (!repositorio.checkEmail(correo)) return Optional.empty();
 			Usuario nuevoUsuario;
 			if (telefono != null && !telefono.isEmpty()) nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false, telefono);
 			else nuevoUsuario = new Usuario(nombre, apellido, correo, clave, fecha, false);

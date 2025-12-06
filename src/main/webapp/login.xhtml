@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<h:head>
+		<meta charset="utf-8" />		
+		<title>Login</title>
+		<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.png']}"/>
+		<h:outputStylesheet name="assets/css/main.css" />	
+		<h:outputStylesheet name="assets/css/autenticacion.css" />	
+	</h:head>
+	
+	
+	<h:body>
+      
+      	<div id="card">
+      	
+      		<h:graphicImage id="logo" value="#{resource['images/favicon.png']}" alt="Logo de Segundum"></h:graphicImage>
+      		<h1><h:outputText id="titulo" value="Iniciar Sesión"></h:outputText></h1>
+      		<h:outputText value="¡Bienvenido! Introduce tus credenciales para acceder todas las funcionalides de la aplicación."></h:outputText>
+      		<h:form styleClass="formLoginStyle">
+      				<h5>Correo electrónico</h5>
+      			   	<p:inputText value="#{autenticacionWeb.email}"/>
+      			    <h5>Contraseña</h5>
+        			<p:password value="#{autenticacionWeb.clave}"/>
+        			<p:commandButton styleClass="btnStyle" update="growl panel" value="Iniciar sesión" actionListener="#{autenticacionWeb.iniciarSesion()}"></p:commandButton>
+        			<p:growl id="growl" showDetail="true" />
+        			<div style="display:flex; flex-direction:row; justify-content:center;">
+                    	<h:outputText value="¿No tienes una cuenta?"></h:outputText>
+						<p:link outcome="signup" value="Registrate ahora." onClick="#{autenticacionWeb.clear()}"></p:link>
+					</div>
+      		</h:form>
+      		
+      	</div>
+      
+		<h:outputScript library="primefaces" name="jquery/jquery.js" />
+		<h:outputScript name="assets/js/jquery.dropotron.min.js" />
+		<h:outputScript name="assets/js/browser.min.js" />
+		<h:outputScript name="assets/js/breakpoints.min.js" />
+		<h:outputScript name="assets/js/util.js" />
+		<h:outputScript name="assets/js/main.js" />
+	</h:body>
+</html>

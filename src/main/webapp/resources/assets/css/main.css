@@ -113,8 +113,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #252122;
-		background-image: url("#{resource['assets/css/images/bg02.png']}");
+		background: rgb(255, 255, 255);
 	}
 	
 	#page-wrapper {
@@ -131,7 +130,10 @@ input, select, textarea {
   		box-sizing: border-box;
 	}
 	
-	
+	#favicon {
+		width: 32px;
+		height: 32px;
+	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -2134,7 +2136,7 @@ input, select, textarea {
 /* Botones de acceso */
 
 
-	#acceso {
+	.acceso {
 		display: flex;
 		gap: 0.5em;
 	}

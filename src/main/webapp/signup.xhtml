@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8" />		
+		<title>Registrate</title>  
+		<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.png']}"/>
+		<h:outputStylesheet name="assets/css/main.css" />
+		<h:outputStylesheet name="assets/css/autenticacion.css" />	
+	</h:head>
+	
+	
+	<h:body>
+      
+      	<div id="card">
+      	
+      		<h:graphicImage id="logo" value="#{resource['images/favicon.png']}" alt="Logo de Segundum"></h:graphicImage>
+      		<h1><h:outputText id="titulo" value="Registrarse"></h:outputText></h1>
+      		<h:outputText value="¿Eres nuevo en la plataforma? ¡Regístrate para acceder a todas las funcionaliades de Segundum!"></h:outputText>
+      		<h:form styleClass="formSignupStyle">
+      		
+      			<h:panelGroup layout="block" styleClass="inputFormSignupStyle">
+      				<h5>Nombre</h5>
+      			   	<p:inputText value="#{autenticacionWeb.nombre}"/>
+				</h:panelGroup>
+				
+				 
+      			<h:panelGroup layout="block" styleClass="inputFormSignupStyle">
+      				<h5>Correo electrónico</h5>
+      			   	<p:inputText value="#{autenticacionWeb.email}"/>
+      			</h:panelGroup>   
+      			 
+      			<h:panelGroup layout="block" styleClass="inputFormSignupStyle">		   	
+      			   	<h5>Apellidos</h5>
+      			   	<p:inputText value="#{autenticacionWeb.apellidos}"/>
+      			</h:panelGroup>   
+      			
+      			
+      			<h:panelGroup layout="block" styleClass="inputFormSignupStyle">
+      			   	<h5>Teléfono (Opcional)</h5>
+      			   	<p:inputText value="#{autenticacionWeb.telefono}"/>
+      			</h:panelGroup>      	   	   	
+      			    
+      			<h:panelGroup layout="block" styleClass="inputFormSignupStyle">
+      			    <h5>Fecha de nacimiento</h5>
+                	<p:datePicker id="button" style="display:flex; flex-direction:row;" monthNavigator="true" yearNavigator="true" yearRange="1900:2025" value="#{autenticacionWeb.fecha}" showIcon="true"/>
+           		</h:panelGroup>   
+           
+           
+           		<h:panelGroup layout="block" styleClass="inputFormSignupStyle">
+      			    <h5>Contraseña</h5>
+        			<p:password value="#{autenticacionWeb.clave}" feedback="true"
+                    promptLabel="Ingresa tu contraseña" weakLabel="Débil"
+                    goodLabel="Buena" strongLabel="Fuerte"/>
+        		</h:panelGroup>   
+        		
+        		<h:panelGroup layout="block" styleClass="inputFormSignupStyle">	
+        			<h5>Confirmar contraseña</h5>
+        			<p:password value="#{autenticacionWeb.confirmarClave}"/>
+        		</h:panelGroup>   
+        		
+      
+       			<p:commandButton styleClass="btnStyle" update="growl panel" value="Registrarse" actionListener="#{autenticacionWeb.registrarse()}"></p:commandButton>
+       			<p:growl id="growl" showDetail="true" />
+			
+				<h:panelGroup layout="block" styleClass="redirectLogin">
+					<p:outputLabel for="loginLink" value="¿Ya tienes una cuenta?"></p:outputLabel>
+					<p:link id="loginLink" outcome="login" value="Inicia sesión." onClick="#{autenticacionWeb.clear()}"></p:link>
+				</h:panelGroup>
+      		</h:form>
+      		
+      	</div>
+      
+		<h:outputScript library="primefaces" name="jquery/jquery.js" />
+		<h:outputScript name="assets/js/jquery.dropotron.min.js" />
+		<h:outputScript name="assets/js/browser.min.js" />
+		<h:outputScript name="assets/js/breakpoints.min.js" />
+		<h:outputScript name="assets/js/util.js" />
+		<h:outputScript name="assets/js/main.js" />
+	</h:body>
+</html>

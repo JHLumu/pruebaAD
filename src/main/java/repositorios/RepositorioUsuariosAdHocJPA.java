@@ -14,17 +14,16 @@ import utils.EntityManagerHelper;
 public class RepositorioUsuariosAdHocJPA extends RepositorioUsuariosJPA implements RepositorioUsuariosAdHoc  {
 
 	@Override
-	public boolean checkEmailAndTelefono(String correo, String telefono) throws RepositorioException {
+	public boolean checkEmail(String correo) throws RepositorioException {
 		
 		try {
 			EntityManager em = EntityManagerHelper.getEntityManager();
 			String queryString = "SELECT COUNT(u)"
 					+ " FROM Usuario u "
-					+ " WHERE u.correo = :correo AND u.telefono = :telefono";
+					+ " WHERE u.correo = :correo";
 			
 			TypedQuery<Long> query = em.createQuery(queryString, Long.class);
 			query.setParameter("correo", correo);
-			query.setParameter("telefono", telefono);
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
 			Long resultado = query.getSingleResult();
 			return resultado.equals(0L);
