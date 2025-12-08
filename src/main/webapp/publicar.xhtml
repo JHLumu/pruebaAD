@@ -15,48 +15,88 @@
 </ui:define>
 	<ui:param name="estilo3" value="current" />
 	<ui:define name="content">
-		<h:form>
+		<h:form style="display: flex; flex-direction:column; gap: 0.5em;">
 		
-		<h:outputLabel for="tituloInput" value="Título" />
-		<p:inputText id="tituloInput" required="true" value="#{crearProductoWeb.titulo}"/>
-		
-		<h:outputLabel for="descripcionInput" value="Descripción"/>
-		<p:inputText id="descripcionInput" required="true" value="#{crearProductoWeb.descripcion}"/>
-		
-		<h:outputLabel for="precioInput" value="Precio" required="true"/>
-		<p:inputText id="precioInput" required="true" value="#{crearProductoWeb.precio}" converter="javax.faces.Double" >
-			 <p:keyFilter inputRegEx="(0\.[0-9]+)|([1-9]+(\.[0-9]+){0,1})"/>
-		</p:inputText>
-		
-		<h:outputLabel for="estadoSelect" value="Estado del producto"/>
-         <h:selectOneMenu id="estadoSelect" value="#{crearProductoWeb.estado}" required="true" converter="javax.faces.Integer">
-             <f:selectItem itemLabel="Selecciona un estado" itemValue="#{null}" noSelectionOption="true"/>
-             <f:selectItem itemLabel="Nuevo" itemValue="0"/>
-             <f:selectItem itemLabel="Como nuevo" itemValue="1"/>
-             <f:selectItem itemLabel="Buen estado" itemValue="2"/>
-             <f:selectItem itemLabel="Aceptable" itemValue="3"/>
-             <f:selectItem itemLabel="Para piezas" itemValue="4"/>
-             <f:selectItem itemLabel="Reparar" itemValue="5"/>
-         </h:selectOneMenu>
-        
-    	<p:outputLabel value="Categoría" for="categoriaComplete"/>
-    	<h:outputText value="Introduce el nombre de la categoría."/>
-        <p:autoComplete id="categoriaComplete" style="display:flex; flex-direction:row;"  dropdown="true" value="#{crearProductoWeb.categoria}"
-         completeMethod="#{crearProductoWeb.completarCategoria}" update="subcategoriaLabel" scrollHeight="250" var="c"
-         itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
-         
-        <h:panelGroup layout="block" style="display:flex; flex-direction:row;" id="subcategoriaBlock">
-			<p:outputLabel id="subcategoriaLabel" rendered="#{crearProductoWeb.categoria != null}" value="Subategoría" for="subcategoriaComplete"/>
-	    	<h:outputText id="subcategoriaText"  rendered="#{crearProductoWeb.categoria != null}" value="Introduce el nombre de la subcategoría."/>
-	        <p:autoComplete id="subcategoriaComplete" rendered="#{crearProductoWeb.categoria != null}" dropdown="true" value="#{crearProductoWeb.subcategoria}"
-	         completeMethod="#{crearProductoWeb.completarSubcategoria}" scrollHeight="250" var="c"
-	         itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+		<h:panelGroup layout="block" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5em;">
+			
+			<h:panelGroup layout="block" style="display: flex; flex-direction: column; gap:0.5em;">
+			
+				<h:panelGroup layout="block" style="display:grid; grid-template-rows: 30% 70%;">
+					<h:outputLabel for="tituloInput" value="Título" />
+					<p:inputText id="tituloInput" required="true" value="#{crearProductoWeb.titulo}"/>
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" style="display:grid; grid-template-rows: 30% 70%;">
+					<h:outputLabel for="precioInput" value="Precio" required="true"/>
+					<p:inputText id="precioInput" required="true" value="#{crearProductoWeb.precio}" converter="javax.faces.Double" >
+			 			<p:keyFilter inputRegEx="(0\.[0-9]+)|([1-9]+(\.[0-9]+){0,1})"/>
+					</p:inputText>
+				</h:panelGroup>
+			
+			<h:panelGroup layout="block" style="display:grid; grid-template-rows: 30% 70%;">
+				<h:outputLabel for="estadoSelect" value="Estado del producto"/>
+		        	<h:selectOneMenu id="estadoSelect" value="#{crearProductoWeb.estado}" required="true" converter="javax.faces.Integer">
+		             <f:selectItem itemLabel="Selecciona un estado" itemValue="#{null}" noSelectionOption="true"/>
+		             <f:selectItem itemLabel="Nuevo" itemValue="0"/>
+		             <f:selectItem itemLabel="Como nuevo" itemValue="1"/>
+		             <f:selectItem itemLabel="Buen estado" itemValue="2"/>
+		             <f:selectItem itemLabel="Aceptable" itemValue="3"/>
+		             <f:selectItem itemLabel="Para piezas" itemValue="4"/>
+		             <f:selectItem itemLabel="Reparar" itemValue="5"/>
+		        </h:selectOneMenu>
+		        
+		        
+         	</h:panelGroup>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup display="block" style="display:flex; flex-direction:column;">
+				<h:outputLabel style="margin:0;" for="descripcionInput" value="Descripción"/>
+				<p:inputTextarea style="padding:0;" id="descripcionInput" required="true" value="#{crearProductoWeb.descripcion}"/>
+			</h:panelGroup>
+			
+			
 		</h:panelGroup>
-        
-        
-        <h5 class="mt-0">Disponibilidad de envío</h5>
-        <p:toggleSwitch value="#{crearProductoWeb.envio}" converter="javax.faces.Boolean"/>
 		
+		
+		
+         
+         <h:panelGroup layout="block" style="display:flex; flex-direction:row; gap: 1.5em;">
+        
+        	<h:panelGroup layout="block" style="display: flex; flex-direction:column;">
+        	
+	        <h:panelGroup layout="block" style="display: flex; flex-direction:row; gap:1em;">
+	    		<p:outputLabel value="Categoría" for="categoriaComplete"/>
+	    		<h:outputText value="Introduce el nombre de la categoría."/>
+	    	</h:panelGroup>
+	    	
+	    	
+	        <p:autoComplete id="categoriaComplete" style="display:flex;"  dropdown="true" value="#{crearProductoWeb.categoria}"
+	         completeMethod="#{crearProductoWeb.completarCategoria}" scrollHeight="250" var="c"
+	         itemLabel="#{c.nombre}" itemValue="#{c.id}">
+	         	<p:ajax event="change" update="subcategoriaBlock"/>       
+	         </p:autoComplete>
+	        
+        	</h:panelGroup>
+         
+	        <h:panelGroup layout="block" id="subcategoriaBlock">
+	        	<h:panelGroup layout="block" style="display:flex; gap: 1em;">
+					<p:outputLabel rendered="#{crearProductoWeb.categoria != null}" value="Subategoría" for="subcategoriaComplete"/>
+		    		<h:outputText  rendered="#{crearProductoWeb.categoria != null}" value="Introduce el nombre de la subcategoría."/>
+		        </h:panelGroup>
+		        <p:autoComplete id="subcategoriaComplete" style="display:flex; flex-direction:row;" 
+		         rendered="#{crearProductoWeb.categoria != null}" dropdown="true" value="#{crearProductoWeb.subcategoria}"
+		         completeMethod="#{crearProductoWeb.completarSubcategoria}" scrollHeight="250" var="c"
+		         itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+			</h:panelGroup>
+	        	
+		</h:panelGroup>
+		
+		
+		<h:panelGroup layout="block" style="display:flex; flex-direction:row; gap:2em;">
+	        	<p:outputLabel for="switchEnvio" class="mt-0" value="Disponibilidad de envío"/>
+	        	<p:toggleSwitch id="switchEnvio" value="#{crearProductoWeb.envio}" converter="javax.faces.Boolean"/>
+		</h:panelGroup>
 		<p:commandButton value="Publicar producto" update="growl" actionListener="#{crearProductoWeb.publicarProducto()}"></p:commandButton>
 		<p:growl id="growl" showDetail="True"/>
 		</h:form>
