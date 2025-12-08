@@ -74,9 +74,9 @@ public class RepositorioProductosAdHocJPA extends RepositorioProductosJPA implem
 				}
 			}
 				
-			// REQUISITO: Texto en descripción (opcional)
+			// Búsqueda por nombre y título, (busca elementos que  contiene el texto de entrada)
 			if (textoContenido != null && !textoContenido.isEmpty()) { 
-				queryString.append(" AND p.descripcion LIKE CONCAT('%', :texto, '%')");
+			    queryString.append(" AND (LOWER(p.titulo) LIKE LOWER(CONCAT('%', :texto, '%')) OR LOWER(p.descripcion) LIKE LOWER(CONCAT('%', :texto, '%')))");
 			}
 			
 			// REQUISITO: Estado "igual o mejor" (opcional)
