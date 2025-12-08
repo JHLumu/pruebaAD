@@ -1,18 +1,155 @@
 <ui:composition template="/WEB-INF/template/template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="metadata">
-		<h:outputStylesheet name="assets/css/home.css"/>	
-	</ui:define>
-	
-	<ui:define name="title">
-	Productos
-</ui:define>
-	<ui:param name="estilo2" value="current" />
-	<ui:define name="content">
-		
-	</ui:define>
+    <ui:define name="metadata">
+        <h:outputStylesheet name="assets/css/home.css" />
+        <style>
+            /* Ajustes visuales para integrar PrimeFaces */
+            .ui-dataview-content { border: none; background: transparent; }
+            .ui-dataview-row { border-bottom: 1px solid #eee; padding: 1em 0; }
+            .card-producto { 
+                background: #fff; 
+                border: 1px solid #ddd; 
+                border-radius: 6px; 
+                padding: 1em; 
+                margin: 0.5em;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
+            }
+            .precio-tag {
+                color: #e44c65;
+                font-weight: 800;
+                font-size: 1.3em;
+                margin: 0.5em 0;
+            }
+            .filtros-box {
+                background: #f7f7f7;
+                padding: 1.5em;
+                border-radius: 4px;
+                margin-bottom: 2em;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Explorar Productos</ui:define>
+
+    <ui:param name="estilo2" value="current" />
+
+    <ui:define name="content">
+        <h:form id="formExplorar">
+            
+            <header class="major">
+                <h2>Catálogo de Productos</h2>
+            </header>
+
+            <div class="row gtr-200">
+                
+                <div class="col-3 col-12-medium">
+                    <div class="filtros-box">
+                        <h3>Filtrar Búsqueda</h3>
+                        
+                        <div class="field">
+                            <label>Nombre o descripción</label>
+                            <p:inputText value="#{productosWeb.textoBusqueda}" placeholder="¿Qué buscas?" style="width:100%">
+                                <p:ajax event="keyup" delay="500" listener="#{productosWeb.buscar}" update=":formExplorar:resultados" />
+                            </p:inputText>
+                        </div>
+
+                        <div class="field">
+                            <label>Categoría</label>
+                            <p:selectOneMenu value="#{productosWeb.categoriaId}" style="width:100%">
+                                <f:selectItem itemLabel="Todas las categorías" itemValue="#{null}"/>
+                                <f:selectItems value="#{productosWeb.categorias}" var="cat" 
+                                               itemLabel="#{cat.nombre}" itemValue="#{cat.id}"/>
+                                <p:ajax listener="#{productosWeb.buscar}" update=":formExplorar:resultados"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="field">
+                            <label>Estado mínimo</label>
+                            <p:selectOneMenu value="#{productosWeb.estado}" style="width:100%">
+                                <f:selectItem itemLabel="Cualquiera" itemValue="#{null}"/>
+                                <f:selectItems value="#{productosWeb.estadosPosibles}" var="est" 
+                                               itemLabel="#{est}" itemValue="#{est}"/>
+                                <p:ajax listener="#{productosWeb.buscar}" update=":formExplorar:resultados"/>
+                            </p:selectOneMenu>
+                        </div>
+                        
+                        <div class="field">
+						    <label>Precio Máximo (€)</label>
+						    <div style="display: flex; align-items: center; gap: 10px;">
+						        <p:inputText id="precioInput" value="#{productosWeb.precioMaximo}" style="width: 80px;">
+						            <p:ajax event="keyup" delay="500" listener="#{productosWeb.buscar}" update=":formExplorar:resultados" />
+						        </p:inputText>
+						
+						        <p:slider for="precioInput" minValue="0" maxValue="3000" step="10" range="false" style="flex-grow: 1;">
+						            <p:ajax event="slideEnd" listener="#{productosWeb.buscar}" update=":formExplorar:resultados" />
+						        </p:slider>
+						    </div>
+						</div>
+                        
+                        <div class="actions">
+                            <p:commandButton value="Buscar" actionListener="#{productosWeb.buscar}" 
+                                             update=":formExplorar:resultados" styleClass="button primary fit" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-9 col-12-medium">
+                    <p:dataView id="resultados" var="prod" value="#{productosWeb.productos}" 
+                                rows="9" paginator="true" 
+                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                                gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                                layout="grid">
+
+                        <p:dataViewGridItem>
+                            <div class="card-producto">
+                                <div style="text-align:center; margin-bottom:10px;">
+                                    <h:graphicImage library="images" name="pic01.jpg" 
+                                                    style="max-width:100%; height:150px; object-fit:cover; border-radius:4px;"/>
+                                </div>
+                                <div>
+                                    <h4>#{prod.titulo}</h4>
+                                    <div class="precio-tag">
+                                        <h:outputText value="#{prod.precio}">
+                                            <f:convertNumber type="currency" currencySymbol="€" />
+                                        </h:outputText>
+                                    </div>
+                                    <p style="font-size: 0.9em; margin:0;">#{prod.estado}</p>
+                                </div>
+                                <div style="text-align:center; margin-top:10px;">
+                                     <p:commandButton value="Ver" icon="pi pi-search" styleClass="button small fit" />
+                                </div>
+                            </div>
+                        </p:dataViewGridItem>
+
+                        <p:dataViewListItem>
+                            <div class="row" style="padding: 1em; border-bottom: 1px solid #eee;">
+                                <div class="col-3">
+                                    <h:graphicImage library="images" name="pic01.jpg" style="width:100%; border-radius:4px;"/>
+                                </div>
+                                <div class="col-9">
+                                    <h3>#{prod.titulo}</h3>
+                                    <p>#{prod.descripcion}</p>
+                                    <div class="row">
+                                        <div class="col-4"><strong>Precio:</strong> #{prod.precio} €</div>
+                                        <div class="col-4"><strong>Estado:</strong> #{prod.estado}</div>
+                                        <div class="col-4"><strong>Vendedor:</strong> #{prod.vendedor.nombre}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:dataViewListItem>
+                        
+                    </p:dataView>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
 </ui:composition>
