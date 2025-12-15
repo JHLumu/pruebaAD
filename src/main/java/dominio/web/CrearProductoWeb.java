@@ -29,6 +29,9 @@ public class CrearProductoWeb implements Serializable{
 	private String categoria;
 	private String subcategoria;
 	private String vendedor;
+	private String ubicacionDescripcion;
+	private Double latitud;
+	private Double longitud;
 	
 	@Inject
 	private AutenticacionWeb beanAutenticacion; //Necesario para recuperar el id del usuario actual
@@ -55,6 +58,19 @@ public class CrearProductoWeb implements Serializable{
 		Optional<String> resultado = servicioProductos.registrarProducto(titulo, descripcion, precio , EstadoProducto.values()[estado], categoria, Boolean.toString(envio), vendedor);
 		
 		if (resultado.isPresent()) {
+			
+			String idProducto = resultado.get();
+			
+			if (ubicacionDescripcion != null && !ubicacionDescripcion.trim().isEmpty()) {
+	            double lat = (latitud != null) ? latitud : 0.0;
+	            double lon = (longitud != null) ? longitud : 0.0;
+	            
+	            boolean ubicacionGuardada = servicioProductos.asignarLugarRecogida(idProducto, ubicacionDescripcion, lon, lat);
+	            
+	            if (!ubicacionGuardada) {
+	                facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Producto creado, pero hubo un error al guardar la ubicación."));
+	            }
+	        }
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Se ha publicado el producto con éxito."));
 		}
 		
@@ -63,6 +79,8 @@ public class CrearProductoWeb implements Serializable{
 					+ " Por favor, revise los campos."));
 			
 		}
+		
+		
 		
 	}
 	

@@ -97,6 +97,41 @@
 	        	<p:outputLabel for="switchEnvio" class="mt-0" value="Disponibilidad de envío"/>
 	        	<p:toggleSwitch id="switchEnvio" value="#{crearProductoWeb.envio}" converter="javax.faces.Boolean"/>
 		</h:panelGroup>
+		
+		<h:panelGroup layout="block" style="margin-top: 2em; margin-bottom: 2em; padding: 1.5em; background: #f9f9f9; border-radius: 6px;">
+    
+		    <h3 style="margin-top:0;">Lugar de Recogida (Opcional)</h3>
+		    <p>Indica dónde se puede recoger el producto si no realizas envíos.</p>
+		
+		    <h:panelGroup layout="block" style="display:flex; flex-direction:column; gap: 1em;">
+		        
+		        <h:panelGroup layout="block">
+		            <h:outputLabel for="ubicacionInput" value="Dirección / Punto de encuentro" style="font-weight:bold;"/>
+		            <p:inputText id="ubicacionInput" value="#{crearProductoWeb.ubicacionDescripcion}" 
+		                         placeholder="Ej: Plaza Mayor, Calle Principal 123..." style="width:100%"/>
+		        </h:panelGroup>
+		
+		        <h:panelGroup layout="block" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5em;">
+		            
+		            <h:panelGroup layout="block">
+		                <h:outputLabel for="latitudInput" value="Latitud" />
+		                <p:inputText id="latitudInput" value="#{crearProductoWeb.latitud}" placeholder="0.000000">
+		                    <p:keyFilter mask="num" /> <f:convertNumber type="number" locale="en_US" />
+		                </p:inputText>
+		            </h:panelGroup>
+		
+		            <h:panelGroup layout="block">
+		                <h:outputLabel for="longitudInput" value="Longitud" />
+		                <p:inputText id="longitudInput" value="#{crearProductoWeb.longitud}" placeholder="0.000000">
+		                     <p:keyFilter mask="num" />
+		                     <f:convertNumber type="number" locale="en_US" />
+		                </p:inputText>
+		            </h:panelGroup>
+		            
+		        </h:panelGroup>
+		        
+		    </h:panelGroup>
+		</h:panelGroup>
 		<p:commandButton value="Publicar producto" update="growl" actionListener="#{crearProductoWeb.publicarProducto()}"></p:commandButton>
 		<p:growl id="growl" showDetail="True"/>
 		</h:form>
