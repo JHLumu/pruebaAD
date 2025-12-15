@@ -95,9 +95,10 @@
 						    </div>
 						</div>
                         
-                        <div class="actions">
-                            <p:commandButton value="Buscar" actionListener="#{productosWeb.buscar}" 
-                                             update=":formExplorar:resultados" styleClass="button primary fit" />
+                        <div class="actions" style="text-align: center; margin-top: 25px;">
+						    <p:commandButton value="Buscar" actionListener="#{productosWeb.buscar}" 
+						                     update=":formExplorar:resultados" 
+						                     styleClass="button primary" /> 
                         </div>
                     </div>
                 </div>
@@ -125,8 +126,11 @@
                                     <p style="font-size: 0.9em; margin:0;">#{prod.estado}</p>
                                 </div>
                                 <div style="text-align:center; margin-top:10px;">
-                                     <p:commandButton value="Ver" icon="pi pi-search" styleClass="button small fit" />
-                                </div>
+								     <p:commandButton value="Ver" icon="pi pi-search" styleClass="button small fit" 
+								                      actionListener="#{productosWeb.verDetalleProducto(prod)}"
+								                      update=":formExplorar:detalleProducto" 
+								                      oncomplete="PF('prodDialog').show()" />
+								</div>
                             </div>
                         </p:dataViewGridItem>
 
@@ -150,6 +154,92 @@
                     </p:dataView>
                 </div>
             </div>
+            <p:dialog header="Ficha del Producto" widgetVar="prodDialog" modal="true" 
+			          showEffect="fade" hideEffect="fade" resizable="false" 
+			          width="900" responsive="true" blockScroll="true" fitViewport="true">
+			    
+			    <p:outputPanel id="detalleProducto">
+			        <p:column rendered="#{not empty productosWeb.productoSeleccionado}">
+			            
+			            <div style="max-height: 60vh; overflow-y: auto; overflow-x: hidden; padding-right: 10px;">
+			                
+			                <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 20px;">
+			                    
+			                    <div style="flex: 1 1 300px; text-align: center; display: flex; align-items: center; justify-content: center; background: #fafafa; border-radius: 6px; padding: 10px;">
+			                        <h:graphicImage library="images" name="pic01.jpg" 
+			                                        style="max-width: 100%; max-height: 300px; border-radius: 4px; object-fit: contain;" />
+			                    </div>
+			                    
+			                    <div style="flex: 1 1 400px;">
+								    <h3 style="color: #333; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid #e44c65; padding-bottom: 10px;">
+								        #{productosWeb.productoSeleccionado.titulo}
+								    </h3>
+								    
+								    <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" 
+								                 columnClasses="ui-g-4 style-label-bold, ui-g-8">
+								        
+								        <h:outputText value="Precio:" style="font-weight: bold;"/>
+								        <h:outputText value="#{productosWeb.productoSeleccionado.precio}" 
+								                      style="color: #e44c65; font-weight: 800; font-size: 1.5em;">
+								            <f:convertNumber type="currency" currencySymbol="€" />
+								        </h:outputText>
+								
+								        <h:outputText value="Estado:" style="font-weight: bold;"/>
+								        <h:outputText value="#{productosWeb.productoSeleccionado.estado}" 
+								                      style="background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.9em;"/>
+								
+								        <h:outputText value="Categoría:" style="font-weight: bold;"/>
+								        <h:outputText value="#{productosWeb.productoSeleccionado.categoria.nombre}" />
+								
+								        <h:outputText value="Vendedor:" style="font-weight: bold;"/>
+								        <h:panelGroup layout="block" style="display: flex; align-items: center;">
+								            <i class="pi pi-user" style="margin-right: 5px;"></i>
+								            <h:outputText value="#{productosWeb.productoSeleccionado.vendedor.nombre} #{productosWeb.productoSeleccionado.vendedor.apellidos}" />
+								        </h:panelGroup>
+								
+								        <h:outputText value="Publicado:" style="font-weight: bold;"/>
+								        <h:outputText value="#{productosWeb.productoSeleccionado.fechaPublicacion}">
+								            <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+								        </h:outputText>
+								        
+								        <h:outputText value="Envío:" style="font-weight: bold;"/>
+								        <h:panelGroup>
+								            <i class="#{productosWeb.productoSeleccionado.envioDisponible ? 'pi pi-check-circle' : 'pi pi-times-circle'}" 
+								               style="color: #{productosWeb.productoSeleccionado.envioDisponible ? 'green' : 'gray'}; font-size: 1.2em; vertical-align: middle;"></i>
+								            <h:outputText value="#{productosWeb.productoSeleccionado.envioDisponible ? ' Disponible' : ' No disponible'}" 
+								                          style="vertical-align: middle; margin-left: 5px;"/>
+								        </h:panelGroup>
+								        
+								        <h:outputText value="Recogida:" style="font-weight: bold;" 
+								                      rendered="#{not empty productosWeb.productoSeleccionado.lugarDeRecogida}"/>
+								        <h:panelGroup rendered="#{not empty productosWeb.productoSeleccionado.lugarDeRecogida}">
+								            <i class="pi pi-map-marker" style="color: #e44c65; margin-right: 5px;"></i>
+								            <h:outputText value="#{productosWeb.productoSeleccionado.lugarDeRecogida.recogida}" />
+								        </h:panelGroup>
+								
+								    </p:panelGrid>
+								</div>
+			                </div>
+			                
+			                <p:separator />
+			                
+			                <div style="text-align: left; margin-top: 15px;">
+			                    <h4 style="margin-bottom: 10px; color: #555;">Descripción del producto</h4>
+			                    <div style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 4px; line-height: 1.6;">
+			                        <h:outputText value="#{productosWeb.productoSeleccionado.descripcion}" escape="false" />
+			                    </div>
+			                </div>
+			
+			            </div> </p:column>
+			    </p:outputPanel>
+			    
+			    <f:facet name="footer">
+			        <div style="text-align: right; padding-top: 10px;">
+			            <p:commandButton value="Cerrar" icon="pi pi-times" onclick="PF('prodDialog').hide()" 
+			                             styleClass="ui-button-secondary ui-button-flat" />
+			        </div>
+			    </f:facet>
+			</p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>

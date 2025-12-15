@@ -30,6 +30,8 @@ public class ProductosWeb implements Serializable {
 
     private IServicioProductos servicioProductos;
     private IServicioCategorias servicioCategorias;
+    
+    private Producto productoSeleccionado;
 
     public ProductosWeb() {
         this.servicioProductos = FactoriaServicios.getServicio(IServicioProductos.class);
@@ -77,5 +79,20 @@ public class ProductosWeb implements Serializable {
     
     public EstadoProducto[] getEstadosPosibles() {
         return EstadoProducto.values();
+    }
+    
+    public Producto getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(Producto productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
+    
+    public void verDetalleProducto(Producto producto) {
+        this.productoSeleccionado = producto;
+        if (producto != null) {
+            servicioProductos.addVisualizacion(producto.getId());
+        }
     }
 }
