@@ -15,8 +15,8 @@ public class ProductoDTO {
 	private Categoria categoria;
 	private int visualizaciones;
 	
-	public ProductoDTO(int id, String titulo, double precio, LocalDateTime fechaPublicacion, EstadoProducto estado,Categoria categoria, int visualizaciones) {
-		this.id = id;
+	public ProductoDTO(String id, String titulo, double precio, LocalDateTime fechaPublicacion, EstadoProducto estado,Categoria categoria, int visualizaciones) {
+		this.id = Integer.parseInt(id) ;
 		this.titulo = titulo;
 		this.precio = precio;
 		this.fechaPublicacion = fechaPublicacion;

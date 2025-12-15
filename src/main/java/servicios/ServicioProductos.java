@@ -150,7 +150,7 @@ public class ServicioProductos implements IServicioProductos{
 
 	@Override
 	public List<ProductoDTO> getProductosEnVenta(String idVendedor) {
-		if (idVendedor != null && idVendedor.isEmpty())
+		if (idVendedor != null && !idVendedor.isEmpty())
 			try {
 				return repositorioProductos.getProductosEnVenta(idVendedor);
 			} catch (RepositorioException e) {
@@ -161,6 +161,18 @@ public class ServicioProductos implements IServicioProductos{
 		
 	}
 
+	
+	@Override
+	public Optional<Producto> recuperarProducto(String identificador) {
+	    if (identificador == null) return Optional.empty();
+	    try {
+	        Producto p = repositorioProductos.getById(identificador);
+	        return Optional.of(p);
+	    } catch (EntidadNoEncontrada | RepositorioException e) {
+	        e.printStackTrace();
+	        return Optional.empty();
+	    }
+	}
 	
 	
 }

@@ -140,8 +140,18 @@
                                     <h:graphicImage library="images" name="pic01.jpg" style="width:100%; border-radius:4px;"/>
                                 </div>
                                 <div class="col-9">
-                                    <h3>#{prod.titulo}</h3>
-                                    <p>#{prod.descripcion}</p>
+                                	<div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                		<div>
+	                                		<h3>#{prod.titulo}</h3>
+		                                    <p>#{prod.descripcion}</p>
+                                		</div>
+	                                    
+									     <p:commandButton value="Ver" icon="pi pi-search" styleClass="button small fit" 
+									                      actionListener="#{productosWeb.verDetalleProducto(prod)}"
+									                      update=":formExplorar:detalleProducto" 
+									                      oncomplete="PF('prodDialog').show()" />
+									</div>
+									
                                     <div class="row">
                                         <div class="col-4"><strong>Precio:</strong> #{prod.precio} €</div>
                                         <div class="col-4"><strong>Estado:</strong> #{prod.estado}</div>

@@ -24,4 +24,6 @@ public interface IServicioProductos {
 	public List<Producto> getProductoByFiltros(String idCategoria, String textoContenido, EstadoProducto estado, double precioMaximo);
 	
 	public List<ProductoDTO> getProductosEnVenta(String idVendedor);
+	
+	public Optional<Producto> recuperarProducto(String identificador);
 }

@@ -1,0 +1,166 @@
+<ui:composition template="/WEB-INF/template/template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="metadata">
+        <h:outputStylesheet name="assets/css/home.css" />
+        <style>
+            .ui-dataview-content { border: none; background: transparent; }
+            .ui-dataview-row { border-bottom: 1px solid #eee; padding: 1em 0; }
+            .card-producto { 
+                background: #fff; border: 1px solid #ddd; 
+                border-radius: 6px; padding: 1em; margin: 0.5em;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                display: flex; flex-direction: column;
+                justify-content: space-between; height: 100%;
+            }
+            .precio-tag {
+                color: #e44c65; font-weight: 800;
+                font-size: 1.3em; margin: 0.5em 0;
+            }
+            .stat-label {
+                font-size: 0.9em; color: #666;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Mis Productos</ui:define>
+
+    <ui:define name="content">
+        <h:form id="formMisProductos">
+            
+            <header class="major">
+                <h2>Mis Productos en Venta</h2>
+                <p>Gestiona y revisa el estado de tus publicaciones</p>
+            </header>
+
+            <p:outputPanel rendered="#{autenticacionWeb.id == null}">
+                <div class="box" style="text-align: center;">
+                    <p>Debes iniciar sesión para ver tus productos.</p>
+                    <a href="login.xhtml" class="button primary">Iniciar Sesión</a>
+                </div>
+            </p:outputPanel>
+
+            <p:outputPanel rendered="#{autenticacionWeb.id != null}">
+                
+                <h:outputText value="No tienes productos publicados actualmente." 
+                              rendered="#{empty misProductosWeb.productos}"
+                              style="font-style: italic; color: #777;" />
+
+                <p:dataView id="misResultados" var="prod" value="#{misProductosWeb.productos}" 
+                            rows="9" paginator="true" 
+                            rendered="#{not empty misProductosWeb.productos}"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                            layout="grid">
+
+                    <p:dataViewGridItem>
+                        <div class="card-producto">
+                            <div style="text-align:center; margin-bottom:10px;">
+                                <h:graphicImage library="images" name="pic01.jpg" 
+                                                style="max-width:100%; height:150px; object-fit:cover; border-radius:4px;"/>
+                            </div>
+                            <div>
+                                <h4>#{prod.titulo}</h4>
+                                <div class="precio-tag">
+                                    <h:outputText value="#{prod.precio}">
+                                        <f:convertNumber type="currency" currencySymbol="€" />
+                                    </h:outputText>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 0.8em;">
+                                        #{prod.estado}
+                                    </span>
+                                    <span class="stat-label">
+                                        <i class="pi pi-eye"></i> #{prod.visualizaciones}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align:center; margin-top:10px;">
+                                <p:commandButton value="Editar" icon="pi pi-pencil" 
+                                                 styleClass="button small fit" 
+                                                 actionListener="#{misProductosWeb.prepararEdicion(prod)}"
+                                                 update=":dialogoEdicion" 
+                                                 oncomplete="PF('editDialog').show()" />
+                            </div>
+                        </div>
+                    </p:dataViewGridItem>
+
+                    <p:dataViewListItem>
+                        <div class="row" style="padding: 1em; border-bottom: 1px solid #eee;">
+                            <div class="col-3">
+                                <h:graphicImage library="images" name="pic01.jpg" style="width:100%; border-radius:4px;"/>
+                            </div>
+                            <div class="col-9">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                    <div>
+                                        <h3 style="margin-bottom: 0.5em;">#{prod.titulo}</h3>
+                                        <p style="margin-bottom: 0.5em; color:#666;">#{prod.categoria.nombre}</p>
+                                    </div>
+                                    
+                                    <p:commandButton value="Editar" icon="pi pi-pencil" 
+                                                     styleClass="button small"
+                                                     actionListener="#{misProductosWeb.prepararEdicion(prod)}"
+                                                     update=":dialogoEdicion" 
+                                                     oncomplete="PF('editDialog').show()" />
+                                </div>
+                                
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-4">
+                                        <strong>Precio:</strong> 
+                                        <h:outputText value="#{prod.precio}" style="color: #e44c65; font-weight: bold;">
+                                            <f:convertNumber type="currency" currencySymbol="€" />
+                                        </h:outputText>
+                                    </div>
+                                    <div class="col-4"><strong>Estado:</strong> #{prod.estado}</div>
+                                    <div class="col-4"><strong>Visualizaciones:</strong> #{prod.visualizaciones}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </p:dataViewListItem>
+                    
+                </p:dataView>
+                
+            </p:outputPanel>
+        </h:form>
+        
+        <p:dialog header="Editar Producto" widgetVar="editDialog" modal="true" 
+                  showEffect="fade" hideEffect="fade" resizable="false" width="500">
+            <h:form id="dialogoEdicion">
+                <p:outputPanel rendered="#{not empty misProductosWeb.productoEditar}">
+                    <div class="field">
+                        <label>Producto:</label>
+                        <h:outputText value="#{misProductosWeb.productoEditar.titulo}" style="font-weight:bold;"/>
+                    </div>
+                    
+                    <div class="field" style="margin-top:1em;">
+                        <label for="nuevoPrecio">Precio (€)</label>
+                        <p:inputNumber id="nuevoPrecio" value="#{misProductosWeb.precioEdicion}" 
+                                       symbol=" €" symbolPosition="s" decimalSeparator="," thousandSeparator="." />
+                    </div>
+
+                    <div class="field" style="margin-top:1em;">
+                        <label for="nuevaDesc">Descripción</label>
+                        <p:inputTextarea id="nuevaDesc" value="#{misProductosWeb.descripcionEdicion}" 
+                                         rows="5" cols="30" autoResize="false" style="width:100%"/>
+                    </div>
+
+                    <div style="margin-top:2em; text-align:right;">
+                        <p:commandButton value="Cancelar" onclick="PF('editDialog').hide()" type="button" 
+                                         styleClass="ui-button-secondary ui-button-flat" />
+                        
+                        <p:commandButton value="Guardar" icon="pi pi-check" 
+                                         styleClass="button primary"
+                                         actionListener="#{misProductosWeb.guardarEdicion}"
+                                         update=":formMisProductos:misResultados :formMisProductos:msgs"
+                                         oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editDialog').hide()" />
+                    </div>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
