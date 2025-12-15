@@ -42,7 +42,6 @@ public class AutenticacionWeb implements Serializable{
 	private FacesContext facesContext;
 	
 	
-	
 	public AutenticacionWeb() {
 		servicio = FactoriaServicios.getServicio(IServicioUsuarios.class);
 	}

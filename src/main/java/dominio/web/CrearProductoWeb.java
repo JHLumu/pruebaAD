@@ -30,6 +30,8 @@ public class CrearProductoWeb implements Serializable{
 	private String subcategoria;
 	private String vendedor;
 	
+	@Inject
+	private AutenticacionWeb beanAutenticacion; //Necesario para recuperar el id del usuario actual
 	
 	@Inject
 	private FacesContext facesContext;
@@ -44,7 +46,14 @@ public class CrearProductoWeb implements Serializable{
 	
 
 	public void publicarProducto() {
+		vendedor = beanAutenticacion.getId();
+		if (vendedor == null || vendedor.isEmpty()) {
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Debes iniciar sesión para publicar un producto."));
+			return;
+		} 
+		
 		Optional<String> resultado = servicioProductos.registrarProducto(titulo, descripcion, precio , EstadoProducto.values()[estado], categoria, Boolean.toString(envio), vendedor);
+		
 		if (resultado.isPresent()) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Se ha publicado el producto con éxito."));
 		}
